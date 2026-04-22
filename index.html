@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>madeomade homedeck · La casa sigue escuchando</title>
+  <meta name="description" content="madeomade homedeck convierte tablets Android en paneles domésticos para enviar avisos por voz, mensajes rápidos y confirmaciones entre habitaciones." />
+  <meta name="theme-color" content="#141210" />
+  <meta property="og:title" content="madeomade homedeck" />
+  <meta property="og:description" content="Convierte tablets Android en paneles domésticos para avisar a casa, pedir ayuda y confirmar respuestas rápidas." />
+  <meta property="og:type" content="website" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=DM+Mono:wght@400;500&display=swap');
+
+    :root {
+      --bg: #0e0c0a;
+      --bg-2: #141210;
+      --bg-3: #1e1b18;
+      --surface: #272320;
+      --surface-2: #302c28;
+      --surface-3: #3a342f;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --text: #f0ede8;
+      --text-2: #c8c0b8;
+      --text-3: #918880;
+      --text-4: #655d56;
+      --amber: #e8a020;
+      --amber-soft: rgba(232, 160, 32, 0.14);
+      --red: #d63030;
+      --red-soft: rgba(214, 48, 48, 0.14);
+      --green: #2a9d5c;
+      --green-soft: rgba(42, 157, 92, 0.14);
+      --blue: #2a6fb5;
+      --blue-soft: rgba(42, 111, 181, 0.12);
+      --purple: #7c4dff;
+      --shadow-xl: 0 40px 100px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 24px 70px rgba(0, 0, 0, 0.34);
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 14px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(42, 111, 181, 0.18), transparent 28%),
+        radial-gradient(circle at 100% 10%, rgba(232, 160, 32, 0.12), transparent 26%),
+        radial-gradient(circle at 50% 100%, rgba(124, 77, 255, 0.08), transparent 24%),
+        linear-gradient(180deg, #120f0c 0%, #0e0c0a 48%, #0a0807 100%);
+      min-height: 100vh;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+
+    .page {
+      overflow: hidden;
+      position: relative;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: fixed;
+      inset: auto;
+      width: 40rem;
+      height: 40rem;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.24;
+    }
+
+    .page::before {
+      top: -12rem;
+      right: -12rem;
+      background: rgba(42, 111, 181, 0.3);
+    }
+
+    .page::after {
+      bottom: -18rem;
+      left: -14rem;
+      background: rgba(232, 160, 32, 0.16);
+    }
+
+    .container,
+    .nav,
+    footer {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(10, 8, 7, 0.48);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-weight: 900;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 30%),
+        linear-gradient(145deg, #1f1a16, #2a241f);
+      border: 1px solid var(--line-strong);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.28);
+    }
+
+    .brand-meta small {
+      display: block;
+      color: var(--text-3);
+      font-size: .74rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .brand-meta strong {
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--text-2);
+      font-size: 0.94rem;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 42px 0 34px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-2);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(42,157,92,0.14);
+    }
+
+    h1 {
+      margin: 20px 0 0;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: 0.92;
+      letter-spacing: -0.08em;
+      max-width: 12ch;
+    }
+
+    .gradient {
+      background: linear-gradient(120deg, #f8f3ee 0%, #d9e9ff 35%, #f5c56d 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      margin: 24px 0 0;
+      font-size: clamp(1.08rem, 2vw, 1.3rem);
+      line-height: 1.7;
+      color: var(--text-2);
+      max-width: 60ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.96rem;
+      border: 1px solid transparent;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f1b242, #d98d10);
+      color: #1b140b;
+      box-shadow: 0 18px 40px rgba(232,160,32,0.24);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-color: var(--line-strong);
+    }
+
+    .quick-facts {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .fact {
+      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .fact strong {
+      display: block;
+      font-size: 1.05rem;
+      letter-spacing: -0.04em;
+    }
+
+    .fact span {
+      display: block;
+      margin-top: 6px;
+      color: var(--text-3);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .hero-stage {
+      position: relative;
+      min-height: 760px;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(10px);
+      opacity: 0.48;
+    }
+
+    .orb.blue { width: 190px; height: 190px; background: rgba(42,111,181,0.22); top: 12px; left: 16px; }
+    .orb.amber { width: 220px; height: 220px; background: rgba(232,160,32,0.14); bottom: 70px; right: 14px; }
+
+    .device {
+      position: absolute;
+      background: linear-gradient(180deg, #0a0908, #050505);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: var(--shadow-xl);
+      overflow: hidden;
+    }
+
+    .device::before {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border-radius: inherit;
+      border: 1px solid rgba(255,255,255,0.04);
+      pointer-events: none;
+    }
+
+    .tablet {
+      top: 0;
+      left: 0;
+      width: min(100%, 560px);
+      aspect-ratio: 0.68;
+      border-radius: 34px;
+      padding: 12px;
+      transform: rotate(-2deg);
+      z-index: 2;
+    }
+
+    .phone {
+      right: 0;
+      bottom: 26px;
+      width: 270px;
+      aspect-ratio: 0.5;
+      border-radius: 34px;
+      padding: 10px;
+      transform: rotate(4deg);
+      z-index: 3;
+    }
+
+    .screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      background: linear-gradient(180deg, #161310, #100d0b);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 18px 8px;
+      color: var(--text-3);
+      font-size: .76rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line-strong);
+      color: var(--text-2);
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    .status-pill .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .tablet-screen {
+      padding: 0 18px 18px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .clock {
+      font-family: "DM Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: clamp(4rem, 8vw, 5.4rem);
+      letter-spacing: -0.09em;
+      text-align: center;
+      color: var(--text);
+      margin-top: 48px;
+      line-height: 0.92;
+    }
+
+    .date {
+      text-align: center;
+      margin-top: 12px;
+      color: var(--text-3);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-2);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .chip.red { color: #ff6767; }
+    .chip.purple { color: #c5afff; }
+
+    .action-grid {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .action-card,
+    .room-card,
+    .feature-card,
+    .problem-card,
+    .flow-step,
+    .use-card,
+    .faq-item,
+    .repo-card,
+    .screen-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.03));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .action-card {
+      padding: 18px;
+      min-height: 118px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .action-card .icon,
+    .mini-icon,
+    .feature-icon,
+    .use-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      flex: 0 0 auto;
+    }
+
+    .action-card.urgent .icon,
+    .feature-card.alert .feature-icon { background: var(--red-soft); }
+    .action-card.broadcast .icon,
+    .feature-card.broadcast .feature-icon { background: var(--amber-soft); }
+    .action-card.free .icon,
+    .feature-card.voice .feature-icon { background: var(--blue-soft); }
+    .action-card.quick .icon,
+    .feature-card.quick .feature-icon { background: var(--green-soft); }
+
+    .action-card strong,
+    .room-card strong,
+    .feature-card h3,
+    .problem-card h3,
+    .flow-step h3,
+    .use-card h3,
+    .repo-card h3,
+    .screen-card h3,
+    .faq-item h3 {
+      display: block;
+      font-size: 1.04rem;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+
+    .action-card span,
+    .room-card span,
+    .feature-card p,
+    .problem-card p,
+    .flow-step p,
+    .use-card p,
+    .repo-card p,
+    .screen-card p,
+    .faq-item p {
+      display: block;
+      margin-top: 8px;
+      color: var(--text-3);
+      line-height: 1.6;
+      font-size: 0.94rem;
+    }
+
+    .rooms-title {
+      margin-top: auto;
+      color: var(--text-4);
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 20px 2px 10px;
+    }
+
+    .rooms-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding-bottom: 6px;
+    }
+
+    .room-card {
+      padding: 16px;
+      min-height: 96px;
+    }
+
+    .room-card .meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      color: #34d399;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .room-card .meta i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      display: inline-block;
+    }
+
+    .phone-screen {
+      background: linear-gradient(180deg, #187fbc 0 18%, #12100d 18% 100%);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .phone-top {
+      color: rgba(255,255,255,0.74);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-top: 8px;
+    }
+
+    .phone-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      margin-top: 2px;
+    }
+
+    .speech {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 18px 16px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+    }
+
+    .voice-line {
+      color: #28a3ff;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .reply-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .reply-btn {
+      min-height: 104px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 1.12rem;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+    }
+
+    .reply-btn.primary {
+      background: #09b86c;
+      color: white;
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    section {
+      padding: 86px 0 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .section-kicker {
+      color: var(--amber);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-weight: 800;
+    }
+
+    h2 {
+      margin: 10px 0 0;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .section-head p,
+    .intro-copy {
+      color: var(--text-2);
+      line-height: 1.7;
+      margin: 0;
+      max-width: 62ch;
+      font-size: 1.05rem;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .problem-card {
+      padding: 24px;
+      min-height: 240px;
+    }
+
+    .problem-card .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.77rem;
+      font-weight: 800;
+      margin-bottom: 18px;
+      border: 1px solid var(--line);
+      color: var(--text-2);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .comparison {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .comparison .box {
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      font-size: 0.88rem;
+      color: var(--text-3);
+    }
+
+    .comparison .box strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-size: 0.96rem;
+    }
+
+    .feature-grid,
+    .use-grid,
+    .faq-grid,
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .feature-card,
+    .use-card,
+    .faq-item,
+    .screen-card,
+    .repo-card {
+      padding: 24px;
+      min-height: 220px;
+    }
+
+    .feature-icon,
+    .use-icon {
+      margin-bottom: 18px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .flow-step {
+      padding: 24px;
+      position: relative;
+      min-height: 224px;
+    }
+
+    .flow-number {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line-strong);
+      color: var(--amber);
+      font-weight: 900;
+    }
+
+    .flow-step::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: calc(50% - 12px);
+      color: rgba(255,255,255,0.16);
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .flow-step:last-child::after { display: none; }
+
+    .screens-grid {
+      align-items: stretch;
+    }
+
+    .screen-card.large { grid-column: span 2; }
+
+    .mini-screen {
+      margin-top: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #171310, #100d0a);
+      padding: 16px;
+      min-height: 230px;
+    }
+
+    .mini-screen .tiny-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text-3);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+    }
+
+    .mini-screen .banner {
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .tiles {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .tiles .t {
+      border-radius: 14px;
+      padding: 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      min-height: 84px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .tiles .t small {
+      color: var(--text-4);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .repo-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+    }
+
+    .repo-card ul,
+    .repo-card ol {
+      margin: 16px 0 0 18px;
+      padding: 0;
+      color: var(--text-2);
+      line-height: 1.7;
+    }
+
+    .repo-card code,
+    .code-inline {
+      font-family: "DM Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.92em;
+      color: #ffd89b;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+
+    .code-block {
+      margin-top: 16px;
+      background: #0b0908;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      padding: 18px;
+      overflow-x: auto;
+      color: #eee4d9;
+      font-family: "DM Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+    }
+
+    .cta {
+      margin: 86px 0 0;
+      padding: 36px;
+      border-radius: 32px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 15% 15%, rgba(42,111,181,0.16), transparent 26%),
+        radial-gradient(circle at 90% 20%, rgba(232,160,32,0.12), transparent 24%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.035));
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .cta h2 { max-width: 12ch; }
+
+    .cta p {
+      color: var(--text-2);
+      max-width: 56ch;
+      line-height: 1.7;
+      margin: 14px 0 0;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      color: var(--text-4);
+      padding: 30px 0 44px;
+      font-size: 0.92rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: var(--text-3);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-grid,
+      .repo-grid,
+      .cta,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .section-head {
+        display: grid;
+      }
+
+      .problem-grid,
+      .feature-grid,
+      .flow,
+      .screens-grid,
+      .use-grid,
+      .faq-grid,
+      .quick-facts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-step::after { display: none; }
+
+      .hero-stage {
+        min-height: 920px;
+      }
+
+      .tablet {
+        left: 50%;
+        transform: translateX(-50%) rotate(-2deg);
+      }
+
+      .phone {
+        right: 8%;
+        bottom: 10px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+      }
+
+      .hero {
+        padding-top: 26px;
+      }
+
+      h1 { max-width: 100%; }
+
+      .problem-grid,
+      .feature-grid,
+      .flow,
+      .screens-grid,
+      .use-grid,
+      .faq-grid,
+      .quick-facts,
+      .rooms-grid,
+      .action-grid,
+      .comparison,
+      .reply-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .screen-card.large { grid-column: span 1; }
+
+      .hero-stage {
+        min-height: auto;
+        padding-top: 12px;
+      }
+
+      .device {
+        position: relative;
+        inset: auto;
+        transform: none !important;
+        width: 100%;
+        margin-bottom: 18px;
+      }
+
+      .tablet { aspect-ratio: 0.7; }
+      .phone {
+        width: min(86%, 290px);
+        margin-left: auto;
+      }
+
+      .cta {
+        padding: 28px;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="nav-wrap">
+      <nav class="nav" aria-label="Principal">
+        <a class="brand" href="#top">
+          <span class="brand-mark">m</span>
+          <span class="brand-meta">
+            <small>Android · hogar</small>
+            <strong>madeomade homedeck</strong>
+          </span>
+        </a>
+        <div class="nav-links">
+          <a href="#problema">Problema</a>
+          <a href="#flujo">Flujo</a>
+          <a href="#pantallas">Pantallas</a>
+          <a href="#casos">Casos de uso</a>
+          <a href="#repo">Publicación</a>
+        </div>
+      </nav>
+    </div>
+
+    <main id="top" class="container">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="eyebrow"><span class="pulse"></span> Android tablets recicladas · avisos por voz · confirmación rápida</div>
+            <h1>Cuando el móvil no está, <span class="gradient">la casa sigue escuchando.</span></h1>
+            <p class="lead">
+              <strong>madeomade homedeck</strong> convierte tablets viejas en paneles fijos para enviar avisos entre habitaciones,
+              leer mensajes en voz alta, pedir ayuda y recibir respuestas rápidas sin depender de llamadas, WhatsApp ni audios.
+            </p>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#pantallas">Ver pantallas clave</a>
+              <a class="btn btn-secondary" href="#repo">Publicarla en GitHub</a>
+            </div>
+            <div class="quick-facts" aria-label="Resumen rápido del producto">
+              <div class="fact">
+                <strong>Mensajes rápidos</strong>
+                <span>Plantillas listas para avisar sin escribir.</span>
+              </div>
+              <div class="fact">
+                <strong>Modo urgente</strong>
+                <span>Destaca, repite y pide respuesta inmediata.</span>
+              </div>
+              <div class="fact">
+                <strong>Texto + voz</strong>
+                <span>La tablet muestra y reproduce el aviso.</span>
+              </div>
+              <div class="fact">
+                <strong>Por estancias</strong>
+                <span>Salón, cocina, dormitorio o toda la casa.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-stage" aria-hidden="true">
+            <div class="orb blue"></div>
+            <div class="orb amber"></div>
+
+            <div class="device tablet">
+              <div class="screen tablet-screen">
+                <div class="screen-header">
+                  <span>Dormitorio · madeomade deck</span>
+                  <span class="status-pill"><i class="status-dot"></i> Sin conexión</span>
+                </div>
+                <div class="clock">21:57</div>
+                <div class="date">Miércoles, 22 de abril</div>
+                <div class="chips">
+                  <span class="chip red">Sin red</span>
+                  <span class="chip purple">Dormitorio</span>
+                  <span class="chip">Temp. —</span>
+                  <span class="chip">Humedad —</span>
+                </div>
+
+                <div class="action-grid">
+                  <div class="action-card broadcast">
+                    <div class="icon">↗</div>
+                    <div>
+                      <strong>Toda la casa → dormitorio</strong>
+                      <span>Envía “Venid al dormitorio” al resto de pantallas.</span>
+                    </div>
+                  </div>
+                  <div class="action-card urgent">
+                    <div class="icon">△</div>
+                    <div>
+                      <strong>Aviso urgente</strong>
+                      <span>Alerta prioritaria con respuesta rápida.</span>
+                    </div>
+                  </div>
+                  <div class="action-card broadcast">
+                    <div class="icon">📣</div>
+                    <div>
+                      <strong>Anuncio general</strong>
+                      <span>Mensaje a toda la casa excepto esta pantalla.</span>
+                    </div>
+                  </div>
+                  <div class="action-card free">
+                    <div class="icon">🎤</div>
+                    <div>
+                      <strong>Mensaje libre</strong>
+                      <span>Dictado o teclado y tú eliges el destino.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rooms-title">Estancias disponibles</div>
+                <div class="rooms-grid">
+                  <div class="room-card">
+                    <strong>Salón</strong>
+                    <span>Panel activo para avisos familiares y respuestas rápidas.</span>
+                    <div class="meta"><i></i> Disponible</div>
+                  </div>
+                  <div class="room-card">
+                    <strong>Cocina</strong>
+                    <span>Ideal para avisos de comida, volumen o ayuda puntual.</span>
+                    <div class="meta"><i></i> Disponible</div>
+                  </div>
+                  <div class="room-card">
+                    <strong>Dormitorio</strong>
+                    <span>La misma interfaz funciona como origen o receptor.</span>
+                    <div class="meta"><i></i> Disponible</div>
+                  </div>
+                  <div class="room-card">
+                    <strong>Toda la casa</strong>
+                    <span>Un solo toque para avisar a todos a la vez.</span>
+                    <div class="meta"><i></i> Listo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="device phone">
+              <div class="screen phone-screen">
+                <div class="phone-top">Mensaje de</div>
+                <div class="phone-title">Desde dormitorio</div>
+                <div class="speech">Voy ahora</div>
+                <div class="voice-line">●●●●● Leyendo en voz alta…</div>
+                <div class="reply-grid">
+                  <div class="reply-btn primary">Voy ahora</div>
+                  <div class="reply-btn">En 5 min</div>
+                  <div class="reply-btn">Ahora no</div>
+                  <div class="reply-btn">Cerrar</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="problema">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Por qué existe</div>
+            <h2>No es un chat más. Es un sistema para cuando la casa falla en lo básico.</h2>
+          </div>
+          <p>
+            La propuesta gana fuerza cuando el móvil está cargando, nadie oye una llamada o necesitas saber si alguien ha recibido el aviso.
+            La app reduce fricción y convierte mensajes domésticos cotidianos en una interacción clara, visible y confirmable.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <article class="problem-card">
+            <div class="label">Escenario 01</div>
+            <h3>El móvil no está donde hace falta</h3>
+            <p>
+              En una casa grande o con varias plantas, el teléfono puede estar lejos, en silencio o sin batería. El aviso se pierde justo cuando más importa.
+            </p>
+            <div class="comparison">
+              <div class="box">
+                <strong>Sin homedeck</strong>
+                Vas habitación por habitación o repites la llamada.
+              </div>
+              <div class="box">
+                <strong>Con homedeck</strong>
+                La casa muestra el mensaje donde sí lo van a ver.
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="label">Escenario 02</div>
+            <h3>Hablar no siempre es suficiente</h3>
+            <p>
+              Hay ruido, puertas cerradas, música, televisión o simplemente distancia. Decirlo en voz alta ya no garantiza que alguien te escuche.
+            </p>
+            <div class="comparison">
+              <div class="box">
+                <strong>Sin homedeck</strong>
+                Repetición, frustración y cero confirmación.
+              </div>
+              <div class="box">
+                <strong>Con homedeck</strong>
+                Texto grande, lectura en voz alta y botones de respuesta.
+              </div>
+            </div>
+          </article>
+
+          <article class="problem-card">
+            <div class="label">Escenario 03</div>
+            <h3>Lo urgente necesita respuesta</h3>
+            <p>
+              No basta con enviar un aviso. Hay momentos en los que necesitas saber si alguien viene, si lo ha leído o si no puede responder.
+            </p>
+            <div class="comparison">
+              <div class="box">
+                <strong>Sin homedeck</strong>
+                “¿Lo habrá visto?” sigue siendo la duda.
+              </div>
+              <div class="box">
+                <strong>Con homedeck</strong>
+                Respuestas rápidas como “Voy ahora” o “En 5 min”.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="flujo">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Flujo principal</div>
+            <h2>Seleccionar, lanzar, escuchar, responder.</h2>
+          </div>
+          <p>
+            La landing enfatiza el recorrido más claro del producto: elegir destino, usar un mensaje rápido o libre, reproducirlo en la pantalla receptora y cerrar el ciclo con una respuesta de un toque.
+          </p>
+        </div>
+
+        <div class="flow">
+          <article class="flow-step">
+            <div class="flow-number">1</div>
+            <h3>Eliges destino</h3>
+            <p>Salón, cocina, dormitorio o toda la casa. La estructura por estancias hace que la app se entienda en segundos.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-number">2</div>
+            <h3>Envías un mensaje</h3>
+            <p>Puedes tocar una frase rápida, dictar un texto o redactar un aviso urgente si necesitas atención inmediata.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-number">3</div>
+            <h3>La pantalla lo anuncia</h3>
+            <p>El panel receptor muestra el contenido con tipografía grande y lo reproduce por voz para ganar visibilidad.</p>
+          </article>
+          <article class="flow-step">
+            <div class="flow-number">4</div>
+            <h3>Alguien confirma</h3>
+            <p>Un toque basta para responder “Voy ahora”, “En 5 min”, “Ahora no” o cerrar el aviso sin escribir nada.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="pantallas">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Pantallas clave</div>
+            <h2>Una interfaz pensada para verse desde lejos y usarse con prisa.</h2>
+          </div>
+          <p>
+            He orientado la nueva landing a la estética real de tu app: fondo oscuro, tarjetas grandes, acentos por prioridad y lenguaje muy directo. Eso hace que la página cuente el producto tal y como se percibe en los mockups.
+          </p>
+        </div>
+
+        <div class="screens-grid">
+          <article class="screen-card large">
+            <h3>Panel principal fijo</h3>
+            <p>Reloj, estado, accesos de alta frecuencia y listado de estancias disponibles. Es la base visual de toda la experiencia.</p>
+            <div class="mini-screen">
+              <div class="tiny-top">
+                <span>Dormitorio</span>
+                <span>Sin conexión</span>
+              </div>
+              <div class="banner">21:57 · Miércoles, 22 de abril</div>
+              <div class="tiles">
+                <div class="t">Toda la casa → dormitorio<small>Envía a todas las demás pantallas</small></div>
+                <div class="t">Aviso urgente<small>Respuesta rápida prioritaria</small></div>
+                <div class="t">Anuncio general<small>Mensaje a toda la casa</small></div>
+                <div class="t">Mensaje libre<small>Dictado o teclado</small></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="screen-card">
+            <h3>Mensajes rápidos</h3>
+            <p>Reduce fricción con frases preparadas como “Me voy a dormir”, “Voy de camino” o “Necesito ayuda”.</p>
+            <div class="mini-screen">
+              <div class="tiny-top">
+                <span>Mensaje rápido</span>
+                <span>Urgente</span>
+              </div>
+              <div class="tiles">
+                <div class="t">Me voy a dormir<small>Solo informar</small></div>
+                <div class="t">Ya me estoy levantando<small>Solo informar</small></div>
+                <div class="t">Ven cuando puedas<small>Respuesta rápida</small></div>
+                <div class="t">Necesito ayuda<small>Prioridad alta</small></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="screen-card">
+            <h3>Respuesta inmediata</h3>
+            <p>La pantalla receptora hace visible quién envía el mensaje y propone respuestas simples que cierran el ciclo.</p>
+            <div class="mini-screen">
+              <div class="tiny-top">
+                <span>Mensaje de</span>
+                <span>Leyendo</span>
+              </div>
+              <div class="banner" style="font-size:1.35rem;">Desde dormitorio · Voy ahora</div>
+              <div class="tiles">
+                <div class="t" style="background:rgba(42,157,92,0.92); color:white;">Voy ahora<small style="color:rgba(255,255,255,0.78);">Respuesta sugerida</small></div>
+                <div class="t">En 5 min<small>Tiempo estimado</small></div>
+                <div class="t">Ahora no<small>No disponible</small></div>
+                <div class="t">Cerrar<small>Descartar pantalla</small></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="valor">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Qué mejora esta versión</div>
+            <h2>Más producto, menos relleno.</h2>
+          </div>
+          <p>
+            La landing anterior ya explicaba la idea, pero esta versión la hace más concreta para una app Android real: mantiene la promesa principal, refuerza los flujos del interfaz y adopta una identidad mucho más coherente con tus pantallas.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <article class="feature-card quick">
+            <div class="feature-icon">⚡</div>
+            <h3>Mensaje principal más fuerte</h3>
+            <p>Se abre con un problema reconocible y una promesa clara: la casa sigue escuchando aunque el móvil no ayude.</p>
+          </article>
+          <article class="feature-card broadcast">
+            <div class="feature-icon">🏠</div>
+            <h3>Más alineada con la app</h3>
+            <p>Dark mode, acentos funcionales y tarjetas grandes para reflejar la estética real del producto y no una web genérica.</p>
+          </article>
+          <article class="feature-card voice">
+            <div class="feature-icon">🎙️</div>
+            <h3>Valor del TTS más visible</h3>
+            <p>El texto a voz deja de verse como un detalle técnico y pasa a contarse como parte esencial de la utilidad diaria.</p>
+          </article>
+          <article class="feature-card alert">
+            <div class="feature-icon">🚨</div>
+            <h3>Urgencia explicada mejor</h3>
+            <p>El modo urgente aparece como caso de uso concreto, no solo como lista de funcionalidad.</p>
+          </article>
+          <article class="feature-card quick">
+            <div class="feature-icon">✅</div>
+            <h3>Respuesta rápida como cierre</h3>
+            <p>La confirmación ya no se menciona de pasada: se muestra como la parte que realmente resuelve el problema.</p>
+          </article>
+          <article class="feature-card voice">
+            <div class="feature-icon">📱</div>
+            <h3>Lista para GitHub Pages</h3>
+            <p>Es un archivo único, responsive y fácil de subir como <span class="code-inline">index.html</span> al repositorio o a Pages.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="casos">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Casos de uso</div>
+            <h2>Sirve para lo cotidiano, no solo para la demo.</h2>
+          </div>
+          <p>
+            El producto resulta convincente cuando aterriza en escenas reales del día a día: coordinar a la familia, avisar desde otra habitación o pedir ayuda sin salir corriendo a buscar a nadie.
+          </p>
+        </div>
+
+        <div class="use-grid">
+          <article class="use-card">
+            <div class="use-icon" style="background:var(--amber-soft);">🌙</div>
+            <h3>Rutinas diarias</h3>
+            <p>“Me voy a dormir”, “Ya estoy en casa” o “Voy de camino” son mensajes frecuentes que ganan velocidad con una sola pulsación.</p>
+          </article>
+          <article class="use-card">
+            <div class="use-icon" style="background:var(--green-soft);">🍳</div>
+            <h3>Coordinación doméstica</h3>
+            <p>Sirve para avisar que la cena está lista, pedir que bajen el volumen o llamar a alguien a una estancia concreta.</p>
+          </article>
+          <article class="use-card">
+            <div class="use-icon" style="background:var(--red-soft);">🆘</div>
+            <h3>Ayuda puntual</h3>
+            <p>Cuando hace falta que alguien venga, el aviso urgente y la confirmación hacen visible si la petición ha sido atendida.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="repo">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">Publicación</div>
+            <h2>Preparada para subirla a tu repositorio sin montar un framework.</h2>
+          </div>
+          <p>
+            Esta versión está hecha como archivo estático único para que puedas usarla como landing del repositorio, desplegarla en GitHub Pages o adaptarla después si decides convertirla en un sitio más completo.
+          </p>
+        </div>
+
+        <div class="repo-grid">
+          <article class="repo-card">
+            <h3>Qué puedes hacer ahora mismo</h3>
+            <p>El flujo más rápido para publicarla es este:</p>
+            <ol>
+              <li>Sustituye tu <span class="code-inline">index.html</span> actual por este archivo.</li>
+              <li>Edita el título, la descripción y los textos de CTA si quieres enlazar tu repo, APK o documentación.</li>
+              <li>Haz commit y publícala con GitHub Pages o déjala en la raíz del repositorio como landing visual.</li>
+            </ol>
+            <div class="code-block">git add index.html
+
+git commit -m "Mejora landing de homedeck"
+
+git push origin main</div>
+          </article>
+
+          <article class="repo-card">
+            <h3>Recomendaciones para la siguiente iteración</h3>
+            <p>Si quieres dejarla todavía más redonda, yo haría estos pasos después:</p>
+            <ul>
+              <li>Añadir tus capturas reales exportadas desde la app.</li>
+              <li>Incluir un botón real al repositorio y, si existe, al APK o a una demo.</li>
+              <li>Crear una sección breve de arquitectura técnica o stack Android.</li>
+              <li>Sumar testimonios, roadmap o changelog si el proyecto evoluciona en abierto.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div class="section-head">
+          <div>
+            <div class="section-kicker">FAQ breve</div>
+            <h2>Lo esencial, resuelto en tres preguntas.</h2>
+          </div>
+          <p>
+            Esta parte ayuda mucho si la landing la verán personas técnicas y no técnicas: deja claro qué hace, qué no hace y por qué el enfoque de tablets fijas tiene sentido.
+          </p>
+        </div>
+
+        <div class="faq-grid">
+          <article class="faq-item">
+            <h3>¿Es una app de chat?</h3>
+            <p>No. La propuesta está centrada en avisos domésticos rápidos, visibles y confirmables entre estancias.</p>
+          </article>
+          <article class="faq-item">
+            <h3>¿Por qué usar tablets?</h3>
+            <p>Porque están en un punto fijo, tienen pantalla grande y pueden permanecer disponibles aunque nadie lleve el móvil encima.</p>
+          </article>
+          <article class="faq-item">
+            <h3>¿Qué comunica mejor esta landing?</h3>
+            <p>Que tu app no intenta competir con mensajería generalista: resuelve un problema concreto del hogar con una interfaz muy directa.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="cta">
+          <div>
+            <div class="section-kicker">Lista para publicar</div>
+            <h2>Una landing más sólida para un producto que ya tiene identidad.</h2>
+            <p>
+              Si quieres, en el siguiente paso también puedo dejarte una segunda versión más enfocada a <strong>GitHub técnico</strong> —con stack, arquitectura, roadmap y bloque de instalación— o una versión más <strong>comercial</strong> para presentar la idea a usuarios.
+            </p>
+          </div>
+          <div class="hero-actions" style="margin-top:0; justify-content:flex-end;">
+            <a class="btn btn-primary" href="#top">Volver arriba</a>
+            <a class="btn btn-secondary" href="#repo">Ver publicación</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© <span id="year"></span> madeomade homedeck · landing estática para GitHub</span>
+      <div class="footer-links">
+        <a href="#problema">Problema</a>
+        <a href="#pantallas">Pantallas</a>
+        <a href="#repo">Publicación</a>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
