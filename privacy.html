@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Política de privacidad · madeomade homedeck</title>
+  <meta name="description" content="Política de privacidad de madeomade homedeck, aplicación Android para avisos domésticos entre pantallas." />
+  <meta name="theme-color" content="#141210" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #0e0c0a;
+      --bg-2: #141210;
+      --surface: #1e1b18;
+      --surface-2: #272320;
+      --line: rgba(255,255,255,.08);
+      --line-2: rgba(255,255,255,.16);
+      --text: #f0ede8;
+      --text-2: #c7bfb7;
+      --text-3: #928981;
+      --amber: #e8a020;
+      --blue: #2a6fb5;
+      --green: #2a9d5c;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 28px 70px rgba(0,0,0,.34);
+      --max: 980px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(42,111,181,.14), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(232,160,32,.10), transparent 24%),
+        linear-gradient(180deg, #120f0c 0%, #0e0c0a 52%, #090706 100%);
+    }
+
+    a { color: inherit; }
+
+    .container, .nav, footer {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(10,8,7,.52);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #1f1a16, #2a241f);
+      border: 1px solid var(--line-2);
+      box-shadow: 0 14px 30px rgba(0,0,0,.28);
+    }
+
+    .brand small {
+      display: block;
+      color: var(--text-3);
+      font-size: .74rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-2);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: .94rem;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+    }
+
+    header.hero {
+      padding: 42px 0 18px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line-2);
+      background: rgba(255,255,255,.04);
+      color: var(--text-2);
+      font-size: .88rem;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 6px rgba(42,157,92,.14);
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      font-size: clamp(2.6rem, 6vw, 5rem);
+      line-height: .95;
+      letter-spacing: -.07em;
+      max-width: 12ch;
+    }
+
+    .lead {
+      margin: 20px 0 0;
+      color: var(--text-2);
+      font-size: 1.08rem;
+      line-height: 1.75;
+      max-width: 64ch;
+    }
+
+    .meta {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta span {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      color: var(--text-2);
+      font-size: .92rem;
+    }
+
+    section {
+      padding: 26px 0 0;
+    }
+
+    .panel,
+    .grid article,
+    .notice {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .panel {
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 1.04rem;
+      letter-spacing: -.03em;
+    }
+
+    p, li {
+      color: var(--text-2);
+      line-height: 1.72;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+    }
+
+    .grid article {
+      padding: 22px;
+      min-height: 180px;
+    }
+
+    ul {
+      margin: 10px 0 0 18px;
+      padding: 0;
+    }
+
+    .notice {
+      padding: 20px 22px;
+      border-color: rgba(232,160,32,.24);
+      background: linear-gradient(180deg, rgba(232,160,32,.12), rgba(255,255,255,.03));
+    }
+
+    .notice strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffd591;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 30px 0 44px;
+      color: var(--text-3);
+      font-size: .92rem;
+    }
+
+    @media (max-width: 760px) {
+      .nav { flex-direction: column; align-items: flex-start; }
+      .nav-links {
+        width: 100%;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+      }
+      .grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; }
+      .panel { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-wrap">
+    <nav class="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">m</span>
+        <span>
+          <small>Android · hogar</small>
+          <strong>madeomade homedeck</strong>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Volver a la landing</a>
+        <a href="#tratamiento">Tratamiento</a>
+        <a href="#derechos">Derechos</a>
+      </div>
+    </nav>
+  </div>
+
+  <main class="container">
+    <header class="hero">
+      <div class="eyebrow"><span class="dot"></span> documento legal · privacidad · Android</div>
+      <h1>Política de privacidad de madeomade homedeck</h1>
+      <p class="lead">
+        Esta política describe cómo se tratan los datos en <strong>madeomade homedeck</strong>, una aplicación Android pensada para avisos domésticos entre dispositivos dentro del entorno del usuario. El objetivo de la app es facilitar mensajes entre estancias, reproducir avisos por voz y permitir respuestas rápidas.
+      </p>
+      <div class="meta">
+        <span>Última actualización: 22/04/2026</span>
+        <span>Aplicación: madeomade homedeck</span>
+        <span>Plataforma: Android</span>
+      </div>
+    </header>
+
+    <section>
+      <div class="notice">
+        <strong>Importante</strong>
+        Este texto está preparado para una app como la que describes: avisos domésticos, mensajes de texto, posible dictado y reproducción por voz. Si tu aplicación usa analítica, anuncios, cuentas de usuario, almacenamiento en la nube o SDKs de terceros, conviene ajustar esta política para que refleje exactamente ese tratamiento.
+      </div>
+    </section>
+
+    <section id="tratamiento">
+      <div class="panel">
+        <h2>1. Qué datos puede tratar la aplicación</h2>
+        <p>
+          madeomade homedeck está diseñada para funcionar como un sistema de comunicación doméstica entre dispositivos vinculados por el propio usuario. En ese contexto, la aplicación puede tratar las siguientes categorías de información:
+        </p>
+        <ul>
+          <li>mensajes de texto introducidos por el usuario o generados a partir de dictado;</li>
+          <li>nombres de habitaciones, etiquetas de dispositivos y configuraciones básicas de uso;</li>
+          <li>respuestas rápidas seleccionadas por los usuarios, como por ejemplo “Voy ahora” o “En 5 min”;</li>
+          <li>información técnica mínima necesaria para el funcionamiento de la app y la comunicación entre dispositivos del hogar;</li>
+          <li>audio captado por el micrófono únicamente cuando el usuario decide utilizar funciones de dictado o entrada por voz.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article>
+          <h3>2. Finalidad del tratamiento</h3>
+          <p>
+            Los datos se utilizan exclusivamente para prestar la funcionalidad principal de la app: enviar avisos entre dispositivos, mostrar mensajes en pantalla, reproducirlos por voz, organizar dispositivos por estancias y gestionar respuestas rápidas o confirmaciones de recepción.
+          </p>
+        </article>
+        <article>
+          <h3>3. Base jurídica</h3>
+          <p>
+            El tratamiento se basa en la ejecución de las funciones solicitadas por el propio usuario dentro de la aplicación y, cuando corresponda, en el consentimiento otorgado para permisos concretos del dispositivo, como el acceso al micrófono.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article>
+          <h3>4. Micrófono y entrada por voz</h3>
+          <p>
+            Si el usuario utiliza el dictado, la app puede acceder al micrófono del dispositivo para convertir voz en texto o para facilitar la entrada hablada. Ese acceso solo debe producirse cuando el usuario activa voluntariamente la función correspondiente.
+          </p>
+          <p>
+            En caso de que la conversión de voz dependa de servicios del sistema Android o de proveedores externos configurados en el dispositivo, el tratamiento adicional de esa voz podrá regirse también por las políticas de dichos proveedores.
+          </p>
+        </article>
+        <article>
+          <h3>5. Texto a voz y reproducción</h3>
+          <p>
+            La aplicación puede usar servicios de texto a voz del propio dispositivo para leer los mensajes en voz alta. Esta función forma parte de la experiencia principal de la app y se utiliza para hacer más visibles y audibles los avisos domésticos.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article>
+          <h3>6. Conservación de la información</h3>
+          <p>
+            Los mensajes, configuraciones y respuestas pueden mantenerse en el dispositivo o en el entorno técnico necesario para el funcionamiento de la app durante el tiempo imprescindible para prestar el servicio, resolver incidencias o conservar el historial funcional si esa opción existe en la aplicación.
+          </p>
+        </article>
+        <article>
+          <h3>7. Comunicación a terceros</h3>
+          <p>
+            La información tratada por la app no debe compartirse con terceros salvo cuando sea necesario para el funcionamiento técnico del servicio, cuando el usuario utilice servicios del sistema o cuando exista obligación legal. Si en futuras versiones se incorporan terceros adicionales, esta política deberá actualizarse.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>8. Permisos del dispositivo</h2>
+        <p>
+          En función de las funciones activadas, la aplicación puede solicitar permisos del dispositivo Android, por ejemplo acceso al micrófono para dictado. Cada permiso debe estar relacionado con una funcionalidad concreta de la app y puede revocarse desde los ajustes del sistema operativo.
+        </p>
+      </div>
+    </section>
+
+    <section id="derechos">
+      <div class="panel">
+        <h2>9. Derechos de las personas usuarias</h2>
+        <p>
+          De acuerdo con la normativa aplicable, la persona usuaria puede solicitar acceso, rectificación, supresión, limitación del tratamiento u oposición cuando corresponda. También puede retirar permisos otorgados en el dispositivo, desinstalar la aplicación o borrar sus datos locales desde los ajustes del sistema o desde las opciones internas de la app, si están disponibles.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <div class="grid">
+        <article>
+          <h3>10. Menores de edad</h3>
+          <p>
+            La aplicación está pensada para uso doméstico y familiar. Si es utilizada por menores, se recomienda la supervisión de sus responsables legales, especialmente en lo relativo al uso del micrófono, la configuración de dispositivos y la comprensión de los mensajes compartidos.
+          </p>
+        </article>
+        <article>
+          <h3>11. Cambios en esta política</h3>
+          <p>
+            Esta política puede actualizarse para reflejar cambios en la aplicación, en sus funciones o en la normativa aplicable. La versión vigente será siempre la publicada en esta misma URL.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="panel">
+        <h2>12. Contacto</h2>
+        <p>
+          Para consultas relacionadas con privacidad o protección de datos asociadas a madeomade homedeck, utiliza el canal de contacto oficial del proyecto o la misma web donde se publica esta política. Si vas a publicar la app en Google Play, es recomendable añadir aquí un correo de contacto específico del responsable de la aplicación.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <span>© 2026 madeomade homedeck</span>
+    <span><a href="index.html">Volver a la landing</a></span>
+  </footer>
+</body>
+</html>
