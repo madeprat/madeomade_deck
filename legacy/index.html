@@ -1099,5 +1099,17 @@ function updateOnline() {
   }
 }
 </script>
+<div id="dbg" style="position:fixed;bottom:0;left:0;right:0;background:#000;color:#0f0;font-size:11px;padding:6px;z-index:999;word-break:break-all"></div>
+<script>
+  function dbg(msg) {
+    var el = document.getElementById('dbg');
+    if (el) el.innerHTML = el.innerHTML + '<br>' + msg;
+  }
+  dbg('typeof firebase: ' + typeof firebase);
+  dbg('typeof firebase.app: ' + (typeof firebase !== 'undefined' ? typeof firebase.app : 'N/A'));
+  window.onerror = function(msg, src, line) {
+    dbg('ERROR: ' + msg + ' [' + src + ':' + line + ']');
+  };
+</script>
 </body>
 </html>
