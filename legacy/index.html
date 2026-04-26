@@ -1,473 +1,1010 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="theme-color" content="#050814">
-  <title>madeomade homedeck · legacy</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>home deck</title>
+
+  <!-- Firebase compat v8 — last version supporting ES5 / old browsers -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
   <style>
+    * { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
+
     html, body {
-      margin: 0;
-      padding: 0;
       width: 100%;
-      min-height: 100%;
-      background: #050814;
-      color: #f4f7ff;
-      font-family: Arial, Helvetica, sans-serif;
+      height: 100%;
+      overflow: hidden;
+      background: #1a1208;
+      color: #fdefd4;
+      font-family: Arial, sans-serif;
       -webkit-text-size-adjust: 100%;
-    }
-
-    body {
-      background: #050814;
-    }
-
-    .page {
-      min-height: 100vh;
-      padding: 14px;
-      box-sizing: border-box;
-      background: radial-gradient(circle at top, #162b55 0, #071024 40%, #050814 100%);
-    }
-
-    .topbar {
-      border: 1px solid rgba(152, 184, 255, 0.25);
-      background: rgba(3, 8, 20, 0.78);
-      border-radius: 18px;
-      padding: 14px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
-      margin-bottom: 12px;
-    }
-
-    .brand {
-      font-size: 13px;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: #8fb3ff;
-      margin-bottom: 8px;
-    }
-
-    .room {
-      font-size: 30px;
-      line-height: 1.1;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .clock {
-      font-size: 48px;
-      line-height: 1;
-      font-weight: bold;
-      letter-spacing: -1px;
-    }
-
-    .date {
-      color: #c7d4f7;
-      font-size: 15px;
-      margin-top: 6px;
-    }
-
-    .status {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(11, 20, 42, 0.95);
-      border: 1px solid rgba(152, 184, 255, 0.22);
-      color: #dce7ff;
-      font-size: 15px;
-    }
-
-    .grid {
-      display: block;
-    }
-
-    .card {
-      border: 1px solid rgba(152, 184, 255, 0.22);
-      background: rgba(6, 13, 31, 0.88);
-      border-radius: 18px;
-      padding: 14px;
-      margin-bottom: 12px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .button {
-      display: block;
-      width: 100%;
-      border: 0;
-      border-radius: 18px;
-      padding: 18px 14px;
-      margin: 10px 0;
-      font-size: 22px;
-      line-height: 1.15;
-      font-weight: bold;
-      color: #ffffff;
-      background: #1f65ff;
-      box-shadow: 0 10px 22px rgba(31,101,255,0.26);
-      cursor: pointer;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .button:active {
-      transform: scale(0.99);
-      background: #174fd0;
+    #app {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .button.secondary {
-      background: #17233f;
-      color: #e8efff;
-      border: 1px solid rgba(152, 184, 255, 0.25);
-      box-shadow: none;
-    }
-
-    .button.warning {
-      background: #d98200;
-      color: #fff7e8;
-    }
-
-    .button.danger {
-      background: #c2262e;
-    }
-
-    .button.ok {
-      background: #0c8f59;
-    }
-
-    .small {
-      color: #aebee8;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .message {
-      min-height: 90px;
-      border-radius: 18px;
-      border: 1px solid rgba(152, 184, 255, 0.24);
-      background: rgba(255,255,255,0.05);
-      padding: 16px;
-      font-size: 24px;
-      line-height: 1.25;
-      font-weight: bold;
-    }
-
-    .message.empty {
-      color: #93a6d5;
-      font-weight: normal;
-      font-size: 18px;
-    }
-
-    .quick-row {
-      display: block;
-      margin-top: 10px;
-    }
-
-    .footer {
-      text-align: center;
-      color: #7588ba;
-      font-size: 12px;
-      padding: 10px 0 4px;
-    }
-
-    .overlay {
+    /* ── SCREENS ── */
+    .screen {
       display: none;
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background: #050814;
-      color: #ffffff;
-      padding: 22px;
-      box-sizing: border-box;
-      text-align: center;
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #1a1208;
     }
+    .screen.active { display: block; }
 
-    .overlay.active {
+    /* ── KIOSK ── */
+    .kiosk-header {
+      padding: 24px 20px 12px;
+      overflow: hidden;
+    }
+    .room-badge {
+      float: left;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.15);
+      -webkit-border-radius: 20px;
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .clock-block {
+      float: right;
+      text-align: right;
+    }
+    .clock-time {
+      font-size: 46px;
+      line-height: 1;
+      color: #f0b860;
+      font-weight: bold;
+      letter-spacing: -2px;
+    }
+    .clock-date {
+      font-size: 11px;
+      color: rgba(253,239,212,0.55);
+      margin-top: 3px;
+    }
+    .clearfix { clear: both; }
+
+    .action-grid {
+      padding: 8px 16px 10px;
+    }
+    .action-row {
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .action-btn {
+      display: block;
+      float: left;
+      width: 48%;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 14px;
+      border-radius: 14px;
+      padding: 16px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      overflow: hidden;
+    }
+    .action-btn.right { float: right; }
+    .action-btn.full  { float: none; width: 100%; }
+    .action-btn.urgent {
+      background: rgba(224,80,48,0.12);
+      border-color: rgba(224,80,48,0.30);
+    }
+    .btn-icon {
+      font-size: 22px;
+      float: left;
+      width: 44px;
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      background: rgba(240,184,96,0.09);
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+    .btn-text { overflow: hidden; padding-top: 4px; }
+    .btn-label {
+      font-size: 14px;
+      font-weight: bold;
+      color: #fdefd4;
       display: block;
     }
-
-    .overlay-inner {
-      border: 2px solid rgba(255,255,255,0.22);
-      border-radius: 24px;
-      padding: 24px 16px;
-      min-height: 70vh;
-      background: radial-gradient(circle at top, #244b99 0, #071024 58%, #050814 100%);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    .btn-sub {
+      font-size: 11px;
+      color: rgba(253,239,212,0.55);
+      display: block;
+      margin-top: 2px;
     }
 
-    .alert-title {
-      font-size: 22px;
-      color: #9dbbff;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 18px;
-    }
-
-    .alert-text {
-      font-size: 40px;
-      line-height: 1.1;
+    .rooms-section { padding: 4px 16px 80px; }
+    .section-label {
+      font-size: 11px;
       font-weight: bold;
-      margin: 20px 0;
+      color: rgba(253,239,212,0.28);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .rooms-row { overflow: hidden; }
+    .room-chip {
+      float: left;
+      margin: 0 8px 8px 0;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      min-width: 100px;
+    }
+    .room-chip-name {
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #fdefd4;
+    }
+    .room-chip-status {
+      font-size: 11px;
+      color: rgba(253,239,212,0.55);
+      overflow: hidden;
+    }
+    .dot {
+      float: left;
+      width: 6px; height: 6px;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      margin: 2px 5px 0 0;
+    }
+    .dot-green  { background: #7ec87a; }
+    .dot-blue   { background: #6ab0e8; }
+    .dot-amber  { background: #e88c30; }
+    .dot-gray   { background: rgba(253,239,212,0.28); }
+
+    .kiosk-footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 12px 18px;
+      background: #1a1208;
+      border-top: 1px solid rgba(255,210,140,0.10);
+      overflow: hidden;
+    }
+    .footer-brand {
+      float: left;
+      font-size: 12px;
+      color: rgba(253,239,212,0.28);
+      line-height: 24px;
+    }
+    .footer-online {
+      float: right;
+      font-size: 11px;
+      background: rgba(126,200,122,0.10);
+      border: 1px solid rgba(126,200,122,0.22);
+      -webkit-border-radius: 8px;
+      border-radius: 8px;
+      padding: 4px 10px;
+      color: #7ec87a;
     }
 
-    .alert-meta {
+    /* ── PAGE HEADER ── */
+    .page-header {
+      padding: 18px 18px 14px;
+      border-bottom: 1px solid rgba(255,210,140,0.10);
+      overflow: hidden;
+    }
+    .back-btn {
+      float: left;
+      width: 38px; height: 38px;
+      line-height: 36px;
+      text-align: center;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,210,140,0.12);
+      background: transparent;
+      color: rgba(253,239,212,0.55);
       font-size: 18px;
-      color: #d8e4ff;
-      margin-bottom: 24px;
+      cursor: pointer;
+      margin-right: 12px;
+    }
+    .page-title-block { overflow: hidden; }
+    .page-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #fdefd4;
+    }
+    .page-sub {
+      font-size: 12px;
+      color: rgba(253,239,212,0.55);
+      margin-top: 3px;
     }
 
-    input[type="text"] {
+    /* ── DEST ── */
+    .dest-grid { padding: 14px 16px 20px; }
+    .dest-card {
       display: block;
       width: 100%;
-      box-sizing: border-box;
-      border: 1px solid rgba(152, 184, 255, 0.28);
-      border-radius: 16px;
-      background: #081226;
-      color: #ffffff;
-      padding: 15px;
-      font-size: 20px;
-      margin: 10px 0;
-      outline: none;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 14px;
+      border-radius: 14px;
+      padding: 16px 14px;
+      cursor: pointer;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .dest-card.todos {
+      background: rgba(240,184,96,0.07);
+      border-color: rgba(240,184,96,0.22);
+    }
+    .dest-half {
+      float: left;
+      width: 47%;
+      margin-right: 6%;
+    }
+    .dest-half:nth-child(2n) { margin-right: 0; }
+    .dest-emoji { font-size: 24px; display: block; margin-bottom: 8px; }
+    .dest-name  { font-size: 14px; font-weight: bold; color: #fdefd4; }
+    .dest-stat  { font-size: 11px; color: rgba(253,239,212,0.55); margin-top: 4px; }
+    .dest-row { overflow: hidden; margin-bottom: 10px; }
+
+    /* ── MSG ── */
+    .msg-body { padding: 14px 16px 20px; }
+    .type-row { overflow: hidden; margin-bottom: 12px; }
+    .type-btn {
+      float: left;
+      width: 32%;
+      margin-right: 2%;
+      padding: 10px 4px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,210,140,0.12);
+      background: transparent;
+      color: rgba(253,239,212,0.55);
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .type-btn:last-child { margin-right: 0; }
+    .type-btn.sel {
+      background: rgba(240,184,96,0.10);
+      border-color: rgba(240,184,96,0.38);
+      color: #f0b860;
     }
 
-    @media (min-width: 700px) {
-      .grid {
-        display: table;
-        width: 100%;
-        table-layout: fixed;
-      }
-      .col {
-        display: table-cell;
-        vertical-align: top;
-        width: 50%;
-        padding-right: 8px;
-      }
-      .col:last-child {
-        padding-right: 0;
-        padding-left: 8px;
-      }
+    .tpl-row { overflow: hidden; margin-bottom: 12px; }
+    .tpl-chip {
+      float: left;
+      width: 47%;
+      margin-right: 6%;
+      margin-bottom: 8px;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      padding: 10px 10px;
+      cursor: pointer;
+      font-size: 12px;
+      color: rgba(253,239,212,0.55);
+      text-align: left;
+    }
+    .tpl-chip:nth-child(2n) { margin-right: 0; }
+    .tpl-chip.sel {
+      background: rgba(240,184,96,0.10);
+      border-color: rgba(240,184,96,0.38);
+      color: #f0b860;
+    }
+
+    .msg-ta {
+      display: block;
+      width: 100%;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      padding: 13px 13px;
+      color: #fdefd4;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      resize: none;
+      min-height: 80px;
+      outline: none;
+      margin-bottom: 12px;
+      -webkit-appearance: none;
+    }
+
+    .send-btn {
+      display: block;
+      width: 100%;
+      background: #e88c30;
+      border: none;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      padding: 15px;
+      color: #1a1208;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+    }
+    .send-btn.urgent-send { background: #e05030; color: #fff; }
+
+    /* ── CONFIRM ── */
+    .confirm-body {
+      text-align: center;
+      padding: 60px 24px 40px;
+    }
+    .confirm-ring {
+      width: 74px; height: 74px;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      background: rgba(126,200,122,0.12);
+      border: 1px solid rgba(126,200,122,0.38);
+      line-height: 74px;
+      font-size: 30px;
+      margin: 0 auto 18px;
+    }
+    .confirm-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+    .confirm-sub   { font-size: 13px; color: rgba(253,239,212,0.55); line-height: 1.5; margin-bottom: 24px; }
+    .confirm-back {
+      display: inline-block;
+      padding: 12px 32px;
+      -webkit-border-radius: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,210,140,0.12);
+      background: transparent;
+      color: rgba(253,239,212,0.55);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* ── SETUP ── */
+    .setup-body {
+      text-align: center;
+      padding: 50px 24px 40px;
+    }
+    .setup-icon  { font-size: 48px; margin-bottom: 12px; }
+    .setup-title { font-size: 28px; font-weight: bold; color: #f0b860; margin-bottom: 8px; }
+    .setup-sub   { font-size: 14px; color: rgba(253,239,212,0.55); margin-bottom: 22px; line-height: 1.5; }
+    .setup-grid  { overflow: hidden; margin-bottom: 18px; max-width: 320px; margin-left: auto; margin-right: auto; }
+    .setup-room-btn {
+      float: left;
+      width: 47%;
+      margin-right: 6%;
+      margin-bottom: 10px;
+      padding: 12px 8px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.12);
+      background: #2d2010;
+      color: #fdefd4;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .setup-room-btn:nth-child(2n) { margin-right: 0; }
+    .setup-input {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: #fdefd4;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+      margin: 0 auto 14px;
+      -webkit-appearance: none;
+    }
+    .setup-ok-btn {
+      background: #e88c30;
+      border: none;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      padding: 14px 40px;
+      color: #1a1208;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* ── INCOMING OVERLAY ── */
+    .inc-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(8,4,1,0.92);
+      z-index: 300;
+      text-align: center;
+      padding: 40px 24px;
+    }
+    .inc-overlay.show { display: block; }
+    .inc-ring {
+      width: 84px; height: 84px;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+      border: 2px solid #e88c30;
+      background: rgba(232,140,48,0.10);
+      line-height: 84px;
+      font-size: 34px;
+      margin: 40px auto 18px;
+    }
+    .inc-from  { font-size: 13px; color: rgba(253,239,212,0.55); margin-bottom: 12px; }
+    .inc-from strong { color: #f0b860; }
+    .inc-msg   { font-size: 20px; font-weight: bold; line-height: 1.4; margin-bottom: 28px; max-width: 280px; margin-left: auto; margin-right: auto; }
+    .inc-btns  { max-width: 280px; margin: 0 auto; overflow: hidden; }
+    .inc-dismiss {
+      float: left;
+      width: 36%;
+      padding: 14px 8px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.12);
+      background: transparent;
+      color: rgba(253,239,212,0.55);
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .inc-reply {
+      float: right;
+      width: 60%;
+      padding: 14px 8px;
+      -webkit-border-radius: 12px;
+      border-radius: 12px;
+      border: none;
+      background: #e88c30;
+      color: #1a1208;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <div class="topbar">
-      <div class="brand">madeomade homedeck · legacy</div>
-      <div class="room" id="roomName">Panel doméstico</div>
-      <div class="clock" id="clock">--:--</div>
-      <div class="date" id="dateText">Cargando fecha...</div>
-      <div class="status" id="statusText">Modo legacy activo. Compatible con navegadores antiguos.</div>
-    </div>
 
-    <div class="grid">
-      <div class="col">
-        <div class="card">
-          <div class="card-title">Llamar</div>
-          <button class="button" onclick="sendCall('Salón')">Llamar al salón</button>
-          <button class="button" onclick="sendCall('Cocina')">Llamar a cocina</button>
-          <button class="button" onclick="sendCall('Habitación')">Llamar a habitación</button>
-          <button class="button warning" onclick="sendCall('Todos')">Llamar a todos</button>
-          <p class="small">Esta primera versión funciona sin Flutter, sin WebAssembly y sin dependencias externas.</p>
-        </div>
+<div id="app">
 
-        <div class="card">
-          <div class="card-title">Mensaje rápido</div>
-          <button class="button secondary" onclick="sendMessage('Ven, por favor')">Ven, por favor</button>
-          <button class="button secondary" onclick="sendMessage('La comida está lista')">La comida está lista</button>
-          <button class="button secondary" onclick="sendMessage('Necesito ayuda')">Necesito ayuda</button>
-          <button class="button secondary" onclick="sendMessage('Te estoy llamando')">Te estoy llamando</button>
-        </div>
+  <!-- SETUP -->
+  <div class="screen active" id="screen-setup">
+    <div class="setup-body">
+      <div class="setup-icon">&#127968;</div>
+      <div class="setup-title">home deck</div>
+      <div class="setup-sub">&#191;En qu&#233; habitaci&#243;n<br>est&#225; esta tablet?</div>
+      <div class="setup-grid">
+        <button class="setup-room-btn" onclick="setRoom('Sal\u00f3n')">Sal&#243;n</button>
+        <button class="setup-room-btn" onclick="setRoom('Cocina')">Cocina</button>
+        <button class="setup-room-btn" onclick="setRoom('Dormitorio')">Dormitorio</button>
+        <button class="setup-room-btn" onclick="setRoom('Habitaci\u00f3n')">Habitaci&#243;n</button>
+        <button class="setup-room-btn" onclick="setRoom('Entrada')">Entrada</button>
+        <button class="setup-room-btn" onclick="setRoom('Estudio')">Estudio</button>
       </div>
-
-      <div class="col">
-        <div class="card">
-          <div class="card-title">Último aviso</div>
-          <div id="lastMessage" class="message empty">Sin avisos todavía.</div>
-          <button class="button ok" onclick="acknowledge()">Estoy enterado/a</button>
-          <button class="button danger" onclick="clearMessage()">Limpiar pantalla</button>
-        </div>
-
-        <div class="card">
-          <div class="card-title">Configurar este panel</div>
-          <p class="small">Nombre visible de esta tablet. Ejemplo: Cocina, Salón, Habitación de Lucas.</p>
-          <input id="roomInput" type="text" placeholder="Nombre de este panel">
-          <button class="button secondary" onclick="saveRoomName()">Guardar nombre</button>
-          <p class="small">También puedes abrir esta página con <strong>?room=Cocina</strong> al final de la URL.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">homedeck legacy · diseñado para tablets antiguas</div>
-  </div>
-
-  <div class="overlay" id="alertOverlay">
-    <div class="overlay-inner">
-      <div class="alert-title">Aviso doméstico</div>
-      <div class="alert-text" id="alertText">Mensaje</div>
-      <div class="alert-meta" id="alertMeta">Ahora</div>
-      <button class="button ok" onclick="closeOverlay()">Aceptar</button>
+      <div class="setup-sub" style="margin-top:0;margin-bottom:10px">O escribe el nombre:</div>
+      <input class="setup-input" id="setup-custom" placeholder="Nombre personalizado" maxlength="20" type="text">
+      <button class="setup-ok-btn" onclick="setRoomCustom()">Confirmar &#8594;</button>
     </div>
   </div>
 
-  <script>
-    (function () {
-      var roomFromUrl = getQueryParam('room');
-      var savedRoom = localStorage.getItem('homedeck_room_name');
-      var initialRoom = roomFromUrl || savedRoom || 'Panel doméstico';
-      document.getElementById('roomName').innerHTML = escapeHtml(initialRoom);
-      document.getElementById('roomInput').value = initialRoom;
-      updateClock();
-      setInterval(updateClock, 30000);
-      loadLastMessage();
-    }());
+  <!-- KIOSK -->
+  <div class="screen" id="screen-kiosk">
+    <div class="kiosk-header">
+      <div class="room-badge">&#9679; <span id="room-name-lbl">Sal&#243;n</span></div>
+      <div class="clock-block">
+        <div class="clock-time" id="clock">--:--</div>
+        <div class="clock-date" id="date-lbl"></div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
 
-    function updateClock() {
-      var now = new Date();
-      var hours = pad(now.getHours());
-      var minutes = pad(now.getMinutes());
-      document.getElementById('clock').innerHTML = hours + ':' + minutes;
-      document.getElementById('dateText').innerHTML = formatDate(now);
+    <div class="action-grid">
+      <div class="action-row">
+        <div class="action-btn" onclick="go('dest','hablar')">
+          <div class="btn-icon">&#128172;</div>
+          <div class="btn-text">
+            <span class="btn-label">Hablar</span>
+            <span class="btn-sub">a una habitaci&#243;n</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="action-btn right" onclick="go('dest','avisar')">
+          <div class="btn-icon">&#128227;</div>
+          <div class="btn-text">
+            <span class="btn-label">Avisar</span>
+            <span class="btn-sub">mensaje r&#225;pido</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="action-row">
+        <div class="action-btn full urgent" onclick="go('dest','urgente')">
+          <div class="btn-icon">&#128680;</div>
+          <div class="btn-text">
+            <span class="btn-label">Urgente</span>
+            <span class="btn-sub">alerta a toda la casa</span>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rooms-section">
+      <div class="section-label">Estancias</div>
+      <div class="rooms-row" id="rooms-row">
+        <div class="room-chip" data-dest="Cocina" onclick="go('msg','hablar','Cocina')">
+          <div class="room-chip-name">Cocina</div>
+          <div class="room-chip-status">
+            <div class="dot dot-green"></div><span class="rstat">Disponible</span>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="room-chip" data-dest="Dormitorio" onclick="go('msg','hablar','Dormitorio')">
+          <div class="room-chip-name">Dormitorio</div>
+          <div class="room-chip-status">
+            <div class="dot dot-blue"></div><span class="rstat">Durmiendo</span>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="room-chip" data-dest="Habitaci\u00f3n" onclick="go('msg','hablar','Habitaci\u00f3n')">
+          <div class="room-chip-name">Habitaci&#243;n</div>
+          <div class="room-chip-status">
+            <div class="dot dot-amber"></div><span class="rstat">Estudiando</span>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="room-chip" data-dest="Sal\u00f3n" onclick="go('msg','hablar','Sal\u00f3n')">
+          <div class="room-chip-name">Sal&#243;n</div>
+          <div class="room-chip-status">
+            <div class="dot dot-green"></div><span class="rstat">Disponible</span>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="kiosk-footer">
+      <div class="footer-brand">madeomade &middot; home deck</div>
+      <div class="footer-online" id="footer-online">&#9679; en l&#237;nea</div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+  <!-- DEST -->
+  <div class="screen" id="screen-dest">
+    <div class="page-header">
+      <button class="back-btn" onclick="go('kiosk')">&#8592;</button>
+      <div class="page-title-block">
+        <div class="page-title" id="dest-title">&#191;A qui&#233;n avisas?</div>
+        <div class="page-sub" id="dest-sub">Toca una estancia</div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="dest-grid">
+      <div class="dest-card todos" onclick="go('msg',null,'todos')">
+        <span class="dest-emoji">&#127968;</span>
+        <span class="dest-name">Toda la casa</span>
+        <div class="dest-stat">todas las estancias</div>
+      </div>
+      <div class="dest-row">
+        <div class="dest-half dest-card" onclick="go('msg',null,'Cocina')">
+          <span class="dest-emoji">&#127859;</span>
+          <div class="dest-name">Cocina</div>
+          <div class="dest-stat">Disponible</div>
+        </div>
+        <div class="dest-half dest-card" onclick="go('msg',null,'Dormitorio')">
+          <span class="dest-emoji">&#128716;</span>
+          <div class="dest-name">Dormitorio</div>
+          <div class="dest-stat">Durmiendo</div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="dest-row">
+        <div class="dest-half dest-card" onclick="go('msg',null,'Habitaci\u00f3n')">
+          <span class="dest-emoji">&#128218;</span>
+          <div class="dest-name">Habitaci&#243;n</div>
+          <div class="dest-stat">Estudiando</div>
+        </div>
+        <div class="dest-half dest-card" onclick="go('msg',null,'Sal\u00f3n')">
+          <span class="dest-emoji">&#128715;</span>
+          <div class="dest-name">Sal&#243;n</div>
+          <div class="dest-stat">Disponible</div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MSG -->
+  <div class="screen" id="screen-msg">
+    <div class="page-header">
+      <button class="back-btn" onclick="go('dest')">&#8592;</button>
+      <div class="page-title-block">
+        <div class="page-title" id="msg-to-title">Mensaje a Cocina</div>
+        <div class="page-sub">Elige plantilla o escribe</div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="msg-body">
+      <div class="type-row">
+        <button class="type-btn sel" onclick="selType(this,'aviso')">Aviso</button>
+        <button class="type-btn"     onclick="selType(this,'pregunta')">Pregunta</button>
+        <button class="type-btn"     onclick="selType(this,'info')">Info</button>
+        <div class="clearfix"></div>
+      </div>
+      <div class="tpl-row" id="tpl-row"></div>
+      <textarea class="msg-ta" id="msg-text" rows="4" placeholder="O escribe tu mensaje..."></textarea>
+      <button class="send-btn" id="send-btn" onclick="doSend()">Enviar &#8594;</button>
+    </div>
+  </div>
+
+  <!-- CONFIRM -->
+  <div class="screen" id="screen-confirm">
+    <div class="confirm-body">
+      <div class="confirm-ring" id="confirm-ring">&#10003;</div>
+      <div class="confirm-title" id="confirm-title">Mensaje enviado</div>
+      <div class="confirm-sub"   id="confirm-sub">Tu aviso llegar&#225; en segundos.</div>
+      <button class="confirm-back" onclick="go('kiosk')">Volver al panel</button>
+    </div>
+  </div>
+
+  <!-- INCOMING OVERLAY -->
+  <div class="inc-overlay" id="inc-overlay">
+    <div class="inc-ring">&#128276;</div>
+    <div class="inc-from">Desde <strong id="inc-from-room">Dormitorio</strong></div>
+    <div class="inc-msg" id="inc-msg">&#191;Puedes bajar un momento?</div>
+    <div class="inc-btns">
+      <button class="inc-dismiss" onclick="dismissIncoming()">Descartar</button>
+      <button class="inc-reply"   onclick="replyIncoming()">Responder &#8594;</button>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<script>
+// ─── COMPAT: localStorage con try/catch (falla en algunas WebViews antiguas) ─
+var store = (function() {
+  try {
+    localStorage.setItem('_t','1');
+    localStorage.removeItem('_t');
+    return localStorage;
+  } catch(e) {
+    var d = {};
+    return {
+      getItem:    function(k)   { return d[k] || null; },
+      setItem:    function(k,v) { d[k] = v; },
+      removeItem: function(k)   { delete d[k]; }
+    };
+  }
+})();
+
+// ─── FIREBASE CONFIG ────────────────────────────────────────
+// TODO: sustituye por tu firebaseConfig de madeomade-deck
+var firebaseConfig = {
+  apiKey:            "TU_API_KEY",
+  authDomain:        "madeomade-deck.firebaseapp.com",
+  projectId:         "madeomade-deck",
+  storageBucket:     "madeomade-deck.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId:             "TU_APP_ID"
+};
+
+var db = null;
+var unsubMessages = null;
+var unsubRooms    = null;
+
+function initFirebase() {
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    startListeners();
+  } catch(e) {
+    console.warn('Firebase no disponible:', e);
+  }
+}
+
+// ─── STATE ──────────────────────────────────────────────────
+var currentMode  = 'hablar';
+var currentDest  = 'Cocina';
+var pendingMsgId = null;
+var myRoom       = store.getItem('homedeck_room') || null;
+
+var TEMPLATES = {
+  aviso:    ['La cena est\u00e1 lista','Alguien en la puerta','\u00bfPuedes venir?','Voy a salir ahora'],
+  pregunta: ['\u00bfVienes a comer?','\u00bfCu\u00e1ndo llegas?','\u00bfPuedes ayudarme?','\u00bfEst\u00e1s bien?'],
+  info:     ['Llegar\u00e9 tarde','Estoy en llamada','Bajo en 10 min','Todo va bien']
+};
+
+var currentType = 'aviso';
+
+// ─── INIT ────────────────────────────────────────────────────
+window.onload = function() {
+  if (myRoom) {
+    setText('room-name-lbl', myRoom);
+    showScreen('kiosk');
+    initFirebase();
+  } else {
+    showScreen('setup');
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
+  renderTpls('aviso');
+
+  if (window.addEventListener) {
+    window.addEventListener('online',  updateOnline);
+    window.addEventListener('offline', updateOnline);
+  }
+  updateOnline();
+};
+
+// ─── HELPERS ────────────────────────────────────────────────
+function setText(id, txt) {
+  var el = document.getElementById(id);
+  if (el) el.innerHTML = txt;
+}
+
+function showScreen(id) {
+  var screens = document.getElementsByClassName('screen');
+  for (var i = 0; i < screens.length; i++) {
+    screens[i].className = screens[i].className.replace(' active','').replace('active','');
+  }
+  var t = document.getElementById('screen-' + id);
+  if (t) t.className = t.className + ' active';
+}
+
+function go(screen, mode, dest) {
+  if (mode) currentMode = mode;
+  if (dest) currentDest = dest;
+
+  if (screen === 'dest') {
+    var titles = { hablar: '\u00bfA qui\u00e9n hablas?', avisar: '\u00bfA qui\u00e9n avisas?', urgente: '\u00a1Alerta urgente!' };
+    setText('dest-title', titles[currentMode] || '\u00bfA qui\u00e9n avisas?');
+    setText('dest-sub',   currentMode === 'urgente' ? 'Todos recibir\u00e1n la alerta' : 'Toca una estancia');
+  }
+
+  if (screen === 'msg') {
+    var to = dest || currentDest;
+    setText('msg-to-title', to === 'todos' ? 'Mensaje a toda la casa' : 'Mensaje a ' + to);
+    var btn = document.getElementById('send-btn');
+    if (currentMode === 'urgente') {
+      btn.className = 'send-btn urgent-send';
+      btn.innerHTML = '\u26a0 Enviar alerta urgente';
+      document.getElementById('msg-text').value = '\u00a1ATENCI\u00d3N! Necesito ayuda urgente.';
+    } else {
+      btn.className = 'send-btn';
+      btn.innerHTML = 'Enviar \u2192';
+      renderTpls(currentType);
     }
+  }
 
-    function pad(n) {
-      return n < 10 ? '0' + n : '' + n;
-    }
+  showScreen(screen);
+}
 
-    function formatDate(date) {
-      var days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
-      var months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-      return days[date.getDay()] + ', ' + date.getDate() + ' de ' + months[date.getMonth()];
-    }
+// ─── SETUP ──────────────────────────────────────────────────
+function setRoom(name) {
+  store.setItem('homedeck_room', name);
+  myRoom = name;
+  setText('room-name-lbl', name);
+  showScreen('kiosk');
+  initFirebase();
+}
 
-    function getCurrentRoom() {
-      return document.getElementById('roomName').innerHTML;
-    }
+function setRoomCustom() {
+  var inp = document.getElementById('setup-custom');
+  var v   = inp ? inp.value.replace(/^\s+|\s+$/g,'') : '';
+  if (v) setRoom(v);
+}
 
-    function sendCall(target) {
-      var text = 'Llamada para ' + target;
-      registerMessage(text, 'Desde ' + getCurrentRoom());
-      showOverlay(text, 'Desde ' + getCurrentRoom());
-      beep();
-    }
+// ─── TYPE / TEMPLATES ────────────────────────────────────────
+function selType(btn, type) {
+  currentType = type;
+  var btns = document.getElementsByClassName('type-btn');
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].className = btns[i].className.replace(' sel','').replace('sel','');
+  }
+  btn.className = btn.className + ' sel';
+  renderTpls(type);
+}
 
-    function sendMessage(text) {
-      registerMessage(text, 'Mensaje desde ' + getCurrentRoom());
-      showOverlay(text, 'Mensaje desde ' + getCurrentRoom());
-      beep();
-    }
+function renderTpls(type) {
+  var list  = TEMPLATES[type] || TEMPLATES.aviso;
+  var row   = document.getElementById('tpl-row');
+  if (!row) return;
+  row.innerHTML = '';
+  for (var i = 0; i < list.length; i++) {
+    (function(txt, idx) {
+      var d       = document.createElement('div');
+      d.className = 'tpl-chip' + (idx === 0 ? ' sel' : '');
+      d.innerHTML = txt;
+      d.onclick   = function() { pickTpl(d, txt); };
+      row.appendChild(d);
+    })(list[i], i);
+  }
+  if (list[0]) {
+    document.getElementById('msg-text').value = list[0];
+  }
+  var cf = document.createElement('div');
+  cf.className = 'clearfix';
+  row.appendChild(cf);
+}
 
-    function registerMessage(text, meta) {
-      var payload = {
-        text: text,
-        meta: meta,
-        time: new Date().toISOString()
-      };
-      localStorage.setItem('homedeck_last_message', JSON.stringify(payload));
-      renderMessage(payload);
-      document.getElementById('statusText').innerHTML = 'Aviso generado en este panel.';
-    }
+function pickTpl(el, txt) {
+  var chips = document.getElementsByClassName('tpl-chip');
+  for (var i = 0; i < chips.length; i++) {
+    chips[i].className = chips[i].className.replace(' sel','').replace('sel','');
+  }
+  el.className = el.className + ' sel';
+  document.getElementById('msg-text').value = txt;
+}
 
-    function loadLastMessage() {
-      var raw = localStorage.getItem('homedeck_last_message');
-      if (!raw) {
-        return;
-      }
-      try {
-        renderMessage(JSON.parse(raw));
-      } catch (e) {
-        localStorage.removeItem('homedeck_last_message');
-      }
-    }
+// ─── SEND ────────────────────────────────────────────────────
+function doSend() {
+  var dest = currentDest;
+  var txt  = document.getElementById('msg-text').value;
+  if (!txt) return;
+  txt = txt.replace(/^\s+|\s+$/g,'');
+  if (!txt) return;
 
-    function renderMessage(payload) {
-      var el = document.getElementById('lastMessage');
-      el.className = 'message';
-      el.innerHTML = escapeHtml(payload.text) + '<br><span style="font-size:15px;color:#aebee8;font-weight:normal;">' + escapeHtml(payload.meta || '') + '</span>';
-    }
+  var btn = document.getElementById('send-btn');
+  btn.innerHTML  = 'Enviando...';
+  btn.disabled   = true;
 
-    function acknowledge() {
-      document.getElementById('statusText').innerHTML = 'Aviso reconocido.';
-      closeOverlay();
-    }
+  if (db) {
+    db.collection('messages').add({
+      from:      myRoom || 'Desconocido',
+      to:        dest,
+      text:      txt,
+      type:      currentMode,
+      read:      false,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function() {
+      showConfirm(dest);
+    })['catch'](function(e) {
+      console.warn('Error enviando:', e);
+      showConfirm(dest);
+    });
+  } else {
+    showConfirm(dest);
+  }
+}
 
-    function clearMessage() {
-      localStorage.removeItem('homedeck_last_message');
-      var el = document.getElementById('lastMessage');
-      el.className = 'message empty';
-      el.innerHTML = 'Sin avisos todavía.';
-      document.getElementById('statusText').innerHTML = 'Pantalla limpia.';
-      closeOverlay();
-    }
+function showConfirm(dest) {
+  var btn = document.getElementById('send-btn');
+  btn.disabled = false;
 
-    function showOverlay(text, meta) {
-      document.getElementById('alertText').innerHTML = escapeHtml(text);
-      document.getElementById('alertMeta').innerHTML = escapeHtml(meta || 'Ahora');
-      document.getElementById('alertOverlay').className = 'overlay active';
-    }
+  var isUrgent = currentMode === 'urgente';
+  setText('confirm-ring',  isUrgent ? '\u26a0' : '\u2713');
+  setText('confirm-title', isUrgent ? '\u00a1Alerta enviada!' : 'Mensaje enviado');
+  setText('confirm-sub',
+    dest === 'todos' ? 'Toda la casa ha recibido el aviso.'
+                     : 'Tu aviso llegar\u00e1 a ' + dest + ' en segundos.');
+  showScreen('confirm');
+  setTimeout(function() { showScreen('kiosk'); }, 3000);
+}
 
-    function closeOverlay() {
-      document.getElementById('alertOverlay').className = 'overlay';
-    }
+// ─── FIREBASE LISTENERS ──────────────────────────────────────
+function startListeners() {
+  if (!db || !myRoom) return;
 
-    function saveRoomName() {
-      var value = document.getElementById('roomInput').value || 'Panel doméstico';
-      localStorage.setItem('homedeck_room_name', value);
-      document.getElementById('roomName').innerHTML = escapeHtml(value);
-      document.getElementById('statusText').innerHTML = 'Nombre del panel guardado.';
-    }
+  // mensajes entrantes
+  unsubMessages = db.collection('messages')
+    .where('to',   'in', [myRoom, 'todos'])
+    .where('read', '==', false)
+    .orderBy('createdAt', 'desc')
+    .limit(1)
+    .onSnapshot(function(snap) {
+      if (snap.empty) return;
+      var d   = snap.docs[0];
+      var msg = d.data();
+      if (msg.from === myRoom) return;
+      showIncomingMsg(d.id, msg.from, msg.text, msg.type);
+    }, function(e) {
+      console.warn('onSnapshot messages error:', e);
+    });
 
-    function getQueryParam(name) {
-      var query = window.location.search.substring(1);
-      var parts = query.split('&');
-      var i;
-      for (i = 0; i < parts.length; i++) {
-        var pair = parts[i].split('=');
-        if (decodeURIComponent(pair[0]) === name) {
-          return decodeURIComponent((pair[1] || '').replace(/\+/g, ' '));
+  // estado de habitaciones
+  unsubRooms = db.collection('rooms').onSnapshot(function(snap) {
+    snap.forEach(function(doc) {
+      var data  = doc.data();
+      var chips = document.querySelectorAll
+        ? document.querySelectorAll('[data-dest="' + doc.id + '"]')
+        : [];
+      for (var i = 0; i < chips.length; i++) {
+        var dotEl  = chips[i].getElementsByClassName('dot')[0];
+        var statEl = chips[i].getElementsByClassName('rstat')[0];
+        if (dotEl) {
+          dotEl.className = 'dot dot-' + statusColor(data.status);
         }
+        if (statEl) statEl.innerHTML = data.statusLabel || data.status || '';
       }
-      return null;
-    }
+    });
+  }, function(e) {
+    console.warn('onSnapshot rooms error:', e);
+  });
+}
 
-    function escapeHtml(value) {
-      return String(value)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
+function statusColor(s) {
+  var map = { disponible:'green', durmiendo:'blue', ocupado:'amber', fuera:'gray', estudiando:'amber' };
+  return map[s] || 'gray';
+}
 
-    function beep() {
-      try {
-        var AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) {
-          return;
-        }
-        var ctx = new AudioContext();
-        var oscillator = ctx.createOscillator();
-        var gain = ctx.createGain();
-        oscillator.type = 'sine';
-        oscillator.frequency.value = 880;
-        gain.gain.value = 0.15;
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-        oscillator.start(0);
-        setTimeout(function () {
-          oscillator.stop(0);
-          if (ctx.close) {
-            ctx.close();
-          }
-        }, 260);
-      } catch (e) {
-        // En navegadores antiguos, si el audio falla, la app debe seguir funcionando.
-      }
-    }
-  </script>
+// ─── INCOMING ────────────────────────────────────────────────
+function showIncomingMsg(id, from, text, type) {
+  pendingMsgId = id;
+  setText('inc-from-room', from);
+  setText('inc-msg', text);
+  var overlay = document.getElementById('inc-overlay');
+  overlay.className = overlay.className.indexOf('show') === -1
+    ? overlay.className + ' show'
+    : overlay.className;
+}
+
+function dismissIncoming() {
+  var overlay = document.getElementById('inc-overlay');
+  overlay.className = overlay.className.replace(' show','').replace('show','');
+  if (pendingMsgId && db) {
+    db.collection('messages').doc(pendingMsgId).update({ read: true })['catch'](function(){});
+  }
+  pendingMsgId = null;
+}
+
+function replyIncoming() {
+  var from = document.getElementById('inc-from-room').innerHTML;
+  dismissIncoming();
+  go('msg', 'hablar', from);
+}
+
+// ─── CLOCK ──────────────────────────────────────────────────
+var DAYS   = ['domingo','lunes','martes','mi\u00e9rcoles','jueves','viernes','s\u00e1bado'];
+var MONTHS = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+
+function updateClock() {
+  var now = new Date();
+  var h   = now.getHours()  < 10 ? '0' + now.getHours()   : '' + now.getHours();
+  var m   = now.getMinutes() < 10 ? '0' + now.getMinutes() : '' + now.getMinutes();
+  setText('clock',    h + ':' + m);
+  setText('date-lbl', DAYS[now.getDay()] + ', ' + now.getDate() + ' de ' + MONTHS[now.getMonth()]);
+}
+
+// ─── ONLINE/OFFLINE ─────────────────────────────────────────
+function updateOnline() {
+  var el = document.getElementById('footer-online');
+  if (!el) return;
+  if (navigator.onLine !== false) {
+    el.innerHTML = '\u25cf en l\u00ednea';
+    el.style.color = '#7ec87a';
+  } else {
+    el.innerHTML = '\u25cb sin conexi\u00f3n';
+    el.style.color = '#f08070';
+  }
+}
+</script>
+
 </body>
 </html>
