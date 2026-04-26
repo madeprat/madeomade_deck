@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#050814">
+  <title>madeomade homedeck · legacy</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100%;
+      background: #050814;
+      color: #f4f7ff;
+      font-family: Arial, Helvetica, sans-serif;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      background: #050814;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 14px;
+      box-sizing: border-box;
+      background: radial-gradient(circle at top, #162b55 0, #071024 40%, #050814 100%);
+    }
+
+    .topbar {
+      border: 1px solid rgba(152, 184, 255, 0.25);
+      background: rgba(3, 8, 20, 0.78);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+      margin-bottom: 12px;
+    }
+
+    .brand {
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #8fb3ff;
+      margin-bottom: 8px;
+    }
+
+    .room {
+      font-size: 30px;
+      line-height: 1.1;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .clock {
+      font-size: 48px;
+      line-height: 1;
+      font-weight: bold;
+      letter-spacing: -1px;
+    }
+
+    .date {
+      color: #c7d4f7;
+      font-size: 15px;
+      margin-top: 6px;
+    }
+
+    .status {
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(11, 20, 42, 0.95);
+      border: 1px solid rgba(152, 184, 255, 0.22);
+      color: #dce7ff;
+      font-size: 15px;
+    }
+
+    .grid {
+      display: block;
+    }
+
+    .card {
+      border: 1px solid rgba(152, 184, 255, 0.22);
+      background: rgba(6, 13, 31, 0.88);
+      border-radius: 18px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .button {
+      display: block;
+      width: 100%;
+      border: 0;
+      border-radius: 18px;
+      padding: 18px 14px;
+      margin: 10px 0;
+      font-size: 22px;
+      line-height: 1.15;
+      font-weight: bold;
+      color: #ffffff;
+      background: #1f65ff;
+      box-shadow: 0 10px 22px rgba(31,101,255,0.26);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .button:active {
+      transform: scale(0.99);
+      background: #174fd0;
+    }
+
+    .button.secondary {
+      background: #17233f;
+      color: #e8efff;
+      border: 1px solid rgba(152, 184, 255, 0.25);
+      box-shadow: none;
+    }
+
+    .button.warning {
+      background: #d98200;
+      color: #fff7e8;
+    }
+
+    .button.danger {
+      background: #c2262e;
+    }
+
+    .button.ok {
+      background: #0c8f59;
+    }
+
+    .small {
+      color: #aebee8;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .message {
+      min-height: 90px;
+      border-radius: 18px;
+      border: 1px solid rgba(152, 184, 255, 0.24);
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+      font-size: 24px;
+      line-height: 1.25;
+      font-weight: bold;
+    }
+
+    .message.empty {
+      color: #93a6d5;
+      font-weight: normal;
+      font-size: 18px;
+    }
+
+    .quick-row {
+      display: block;
+      margin-top: 10px;
+    }
+
+    .footer {
+      text-align: center;
+      color: #7588ba;
+      font-size: 12px;
+      padding: 10px 0 4px;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: #050814;
+      color: #ffffff;
+      padding: 22px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
+    .overlay-inner {
+      border: 2px solid rgba(255,255,255,0.22);
+      border-radius: 24px;
+      padding: 24px 16px;
+      min-height: 70vh;
+      background: radial-gradient(circle at top, #244b99 0, #071024 58%, #050814 100%);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .alert-title {
+      font-size: 22px;
+      color: #9dbbff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 18px;
+    }
+
+    .alert-text {
+      font-size: 40px;
+      line-height: 1.1;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .alert-meta {
+      font-size: 18px;
+      color: #d8e4ff;
+      margin-bottom: 24px;
+    }
+
+    input[type="text"] {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid rgba(152, 184, 255, 0.28);
+      border-radius: 16px;
+      background: #081226;
+      color: #ffffff;
+      padding: 15px;
+      font-size: 20px;
+      margin: 10px 0;
+      outline: none;
+    }
+
+    @media (min-width: 700px) {
+      .grid {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+      }
+      .col {
+        display: table-cell;
+        vertical-align: top;
+        width: 50%;
+        padding-right: 8px;
+      }
+      .col:last-child {
+        padding-right: 0;
+        padding-left: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="topbar">
+      <div class="brand">madeomade homedeck · legacy</div>
+      <div class="room" id="roomName">Panel doméstico</div>
+      <div class="clock" id="clock">--:--</div>
+      <div class="date" id="dateText">Cargando fecha...</div>
+      <div class="status" id="statusText">Modo legacy activo. Compatible con navegadores antiguos.</div>
+    </div>
+
+    <div class="grid">
+      <div class="col">
+        <div class="card">
+          <div class="card-title">Llamar</div>
+          <button class="button" onclick="sendCall('Salón')">Llamar al salón</button>
+          <button class="button" onclick="sendCall('Cocina')">Llamar a cocina</button>
+          <button class="button" onclick="sendCall('Habitación')">Llamar a habitación</button>
+          <button class="button warning" onclick="sendCall('Todos')">Llamar a todos</button>
+          <p class="small">Esta primera versión funciona sin Flutter, sin WebAssembly y sin dependencias externas.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Mensaje rápido</div>
+          <button class="button secondary" onclick="sendMessage('Ven, por favor')">Ven, por favor</button>
+          <button class="button secondary" onclick="sendMessage('La comida está lista')">La comida está lista</button>
+          <button class="button secondary" onclick="sendMessage('Necesito ayuda')">Necesito ayuda</button>
+          <button class="button secondary" onclick="sendMessage('Te estoy llamando')">Te estoy llamando</button>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card">
+          <div class="card-title">Último aviso</div>
+          <div id="lastMessage" class="message empty">Sin avisos todavía.</div>
+          <button class="button ok" onclick="acknowledge()">Estoy enterado/a</button>
+          <button class="button danger" onclick="clearMessage()">Limpiar pantalla</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Configurar este panel</div>
+          <p class="small">Nombre visible de esta tablet. Ejemplo: Cocina, Salón, Habitación de Lucas.</p>
+          <input id="roomInput" type="text" placeholder="Nombre de este panel">
+          <button class="button secondary" onclick="saveRoomName()">Guardar nombre</button>
+          <p class="small">También puedes abrir esta página con <strong>?room=Cocina</strong> al final de la URL.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">homedeck legacy · diseñado para tablets antiguas</div>
+  </div>
+
+  <div class="overlay" id="alertOverlay">
+    <div class="overlay-inner">
+      <div class="alert-title">Aviso doméstico</div>
+      <div class="alert-text" id="alertText">Mensaje</div>
+      <div class="alert-meta" id="alertMeta">Ahora</div>
+      <button class="button ok" onclick="closeOverlay()">Aceptar</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var roomFromUrl = getQueryParam('room');
+      var savedRoom = localStorage.getItem('homedeck_room_name');
+      var initialRoom = roomFromUrl || savedRoom || 'Panel doméstico';
+      document.getElementById('roomName').innerHTML = escapeHtml(initialRoom);
+      document.getElementById('roomInput').value = initialRoom;
+      updateClock();
+      setInterval(updateClock, 30000);
+      loadLastMessage();
+    }());
+
+    function updateClock() {
+      var now = new Date();
+      var hours = pad(now.getHours());
+      var minutes = pad(now.getMinutes());
+      document.getElementById('clock').innerHTML = hours + ':' + minutes;
+      document.getElementById('dateText').innerHTML = formatDate(now);
+    }
+
+    function pad(n) {
+      return n < 10 ? '0' + n : '' + n;
+    }
+
+    function formatDate(date) {
+      var days = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+      var months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+      return days[date.getDay()] + ', ' + date.getDate() + ' de ' + months[date.getMonth()];
+    }
+
+    function getCurrentRoom() {
+      return document.getElementById('roomName').innerHTML;
+    }
+
+    function sendCall(target) {
+      var text = 'Llamada para ' + target;
+      registerMessage(text, 'Desde ' + getCurrentRoom());
+      showOverlay(text, 'Desde ' + getCurrentRoom());
+      beep();
+    }
+
+    function sendMessage(text) {
+      registerMessage(text, 'Mensaje desde ' + getCurrentRoom());
+      showOverlay(text, 'Mensaje desde ' + getCurrentRoom());
+      beep();
+    }
+
+    function registerMessage(text, meta) {
+      var payload = {
+        text: text,
+        meta: meta,
+        time: new Date().toISOString()
+      };
+      localStorage.setItem('homedeck_last_message', JSON.stringify(payload));
+      renderMessage(payload);
+      document.getElementById('statusText').innerHTML = 'Aviso generado en este panel.';
+    }
+
+    function loadLastMessage() {
+      var raw = localStorage.getItem('homedeck_last_message');
+      if (!raw) {
+        return;
+      }
+      try {
+        renderMessage(JSON.parse(raw));
+      } catch (e) {
+        localStorage.removeItem('homedeck_last_message');
+      }
+    }
+
+    function renderMessage(payload) {
+      var el = document.getElementById('lastMessage');
+      el.className = 'message';
+      el.innerHTML = escapeHtml(payload.text) + '<br><span style="font-size:15px;color:#aebee8;font-weight:normal;">' + escapeHtml(payload.meta || '') + '</span>';
+    }
+
+    function acknowledge() {
+      document.getElementById('statusText').innerHTML = 'Aviso reconocido.';
+      closeOverlay();
+    }
+
+    function clearMessage() {
+      localStorage.removeItem('homedeck_last_message');
+      var el = document.getElementById('lastMessage');
+      el.className = 'message empty';
+      el.innerHTML = 'Sin avisos todavía.';
+      document.getElementById('statusText').innerHTML = 'Pantalla limpia.';
+      closeOverlay();
+    }
+
+    function showOverlay(text, meta) {
+      document.getElementById('alertText').innerHTML = escapeHtml(text);
+      document.getElementById('alertMeta').innerHTML = escapeHtml(meta || 'Ahora');
+      document.getElementById('alertOverlay').className = 'overlay active';
+    }
+
+    function closeOverlay() {
+      document.getElementById('alertOverlay').className = 'overlay';
+    }
+
+    function saveRoomName() {
+      var value = document.getElementById('roomInput').value || 'Panel doméstico';
+      localStorage.setItem('homedeck_room_name', value);
+      document.getElementById('roomName').innerHTML = escapeHtml(value);
+      document.getElementById('statusText').innerHTML = 'Nombre del panel guardado.';
+    }
+
+    function getQueryParam(name) {
+      var query = window.location.search.substring(1);
+      var parts = query.split('&');
+      var i;
+      for (i = 0; i < parts.length; i++) {
+        var pair = parts[i].split('=');
+        if (decodeURIComponent(pair[0]) === name) {
+          return decodeURIComponent((pair[1] || '').replace(/\+/g, ' '));
+        }
+      }
+      return null;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function beep() {
+      try {
+        var AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) {
+          return;
+        }
+        var ctx = new AudioContext();
+        var oscillator = ctx.createOscillator();
+        var gain = ctx.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.value = 880;
+        gain.gain.value = 0.15;
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.start(0);
+        setTimeout(function () {
+          oscillator.stop(0);
+          if (ctx.close) {
+            ctx.close();
+          }
+        }, 260);
+      } catch (e) {
+        // En navegadores antiguos, si el audio falla, la app debe seguir funcionando.
+      }
+    }
+  </script>
+</body>
+</html>
