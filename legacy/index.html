@@ -7,7 +7,6 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <title>home deck</title>
 
-  <!-- Firebase compat v8 — last version supporting ES5 / old browsers -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
@@ -15,8 +14,7 @@
     * { -webkit-box-sizing: border-box; box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       overflow: hidden;
       background: #1a1208;
       color: #fdefd4;
@@ -26,15 +24,13 @@
     }
 
     #app {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
       position: relative;
       overflow: hidden;
       max-width: 600px;
       margin: 0 auto;
     }
 
-    /* ── SCREENS ── */
     .screen {
       display: none;
       position: absolute;
@@ -45,163 +41,9 @@
     }
     .screen.active { display: block; }
 
-    /* ── KIOSK ── */
-    .kiosk-header {
-      padding: 24px 20px 12px;
-      overflow: hidden;
-    }
-    .room-badge {
-      float: left;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.15);
-      -webkit-border-radius: 20px;
-      border-radius: 20px;
-      padding: 7px 14px;
-      font-size: 14px;
-      font-weight: bold;
-    }
-    .clock-block {
-      float: right;
-      text-align: right;
-    }
-    .clock-time {
-      font-size: 46px;
-      line-height: 1;
-      color: #f0b860;
-      font-weight: bold;
-      letter-spacing: -2px;
-    }
-    .clock-date {
-      font-size: 11px;
-      color: rgba(253,239,212,0.55);
-      margin-top: 3px;
-    }
-    .clearfix { clear: both; }
+    .cf { clear: both; }
 
-    .action-grid {
-      padding: 8px 16px 10px;
-    }
-    .action-row {
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .action-btn {
-      display: block;
-      float: left;
-      width: 48%;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 14px;
-      border-radius: 14px;
-      padding: 16px 12px;
-      cursor: pointer;
-      text-decoration: none;
-      overflow: hidden;
-    }
-    .action-btn.right { float: right; }
-    .action-btn.full  { float: none; width: 100%; }
-    .action-btn.urgent {
-      background: rgba(224,80,48,0.12);
-      border-color: rgba(224,80,48,0.30);
-    }
-    .btn-icon {
-      font-size: 22px;
-      float: left;
-      width: 44px;
-      height: 44px;
-      line-height: 44px;
-      text-align: center;
-      background: rgba(240,184,96,0.09);
-      -webkit-border-radius: 10px;
-      border-radius: 10px;
-      margin-right: 10px;
-    }
-    .btn-text { overflow: hidden; padding-top: 4px; }
-    .btn-label {
-      font-size: 14px;
-      font-weight: bold;
-      color: #fdefd4;
-      display: block;
-    }
-    .btn-sub {
-      font-size: 11px;
-      color: rgba(253,239,212,0.55);
-      display: block;
-      margin-top: 2px;
-    }
-
-    .rooms-section { padding: 4px 16px 80px; }
-    .section-label {
-      font-size: 11px;
-      font-weight: bold;
-      color: rgba(253,239,212,0.28);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 10px;
-    }
-    .rooms-row { overflow: hidden; }
-    .room-chip {
-      float: left;
-      margin: 0 8px 8px 0;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-      min-width: 100px;
-    }
-    .room-chip-name {
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #fdefd4;
-    }
-    .room-chip-status {
-      font-size: 11px;
-      color: rgba(253,239,212,0.55);
-      overflow: hidden;
-    }
-    .dot {
-      float: left;
-      width: 6px; height: 6px;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      margin: 2px 5px 0 0;
-    }
-    .dot-green  { background: #7ec87a; }
-    .dot-blue   { background: #6ab0e8; }
-    .dot-amber  { background: #e88c30; }
-    .dot-gray   { background: rgba(253,239,212,0.28); }
-
-    .kiosk-footer {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 12px 18px;
-      background: #1a1208;
-      border-top: 1px solid rgba(255,210,140,0.10);
-      overflow: hidden;
-    }
-    .footer-brand {
-      float: left;
-      font-size: 12px;
-      color: rgba(253,239,212,0.28);
-      line-height: 24px;
-    }
-    .footer-online {
-      float: right;
-      font-size: 11px;
-      background: rgba(126,200,122,0.10);
-      border: 1px solid rgba(126,200,122,0.22);
-      -webkit-border-radius: 8px;
-      border-radius: 8px;
-      padding: 4px 10px;
-      color: #7ec87a;
-    }
-
-    /* ── PAGE HEADER ── */
+    /* ── SHARED ── */
     .page-header {
       padding: 18px 18px 14px;
       border-bottom: 1px solid rgba(255,210,140,0.10);
@@ -209,293 +51,439 @@
     }
     .back-btn {
       float: left;
-      width: 38px; height: 38px;
-      line-height: 36px;
+      width: 38px; height: 38px; line-height: 36px;
       text-align: center;
-      -webkit-border-radius: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 10px; border-radius: 10px;
+      border: 1px solid rgba(255,210,140,0.15);
       background: transparent;
       color: rgba(253,239,212,0.55);
-      font-size: 18px;
-      cursor: pointer;
-      margin-right: 12px;
+      font-size: 18px; cursor: pointer; margin-right: 12px;
     }
     .page-title-block { overflow: hidden; }
-    .page-title {
-      font-size: 17px;
-      font-weight: bold;
-      color: #fdefd4;
+    .page-title { font-size: 17px; font-weight: bold; color: #fdefd4; }
+    .page-sub   { font-size: 12px; color: rgba(253,239,212,0.55); margin-top: 3px; }
+
+    .dot { float: left; width: 6px; height: 6px; -webkit-border-radius: 50%; border-radius: 50%; margin: 2px 5px 0 0; }
+    .dot-green { background: #7ec87a; }
+    .dot-blue  { background: #6ab0e8; }
+    .dot-amber { background: #e88c30; }
+    .dot-gray  { background: rgba(253,239,212,0.28); }
+
+    /* ── WELCOME ── */
+    .welcome-body { text-align: center; padding: 60px 28px 40px; }
+    .welcome-icon  { font-size: 52px; margin-bottom: 14px; }
+    .welcome-title { font-size: 30px; font-weight: bold; color: #f0b860; margin-bottom: 10px; }
+    .welcome-sub   { font-size: 14px; color: rgba(253,239,212,0.55); line-height: 1.6; margin-bottom: 32px; }
+    .welcome-btn {
+      display: block; width: 100%; max-width: 300px;
+      margin: 0 auto 12px; padding: 16px;
+      -webkit-border-radius: 14px; border-radius: 14px;
+      border: 1px solid rgba(255,210,140,0.15);
+      background: #2d2010; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 15px; font-weight: bold;
+      cursor: pointer; text-align: center;
     }
-    .page-sub {
-      font-size: 12px;
-      color: rgba(253,239,212,0.55);
-      margin-top: 3px;
+    .welcome-btn.primary { background: #e88c30; border-color: #e88c30; color: #1a1208; }
+
+    /* ── PIN PAD (reutilizado en PIN admin y JOIN) ── */
+    .pin-body  { text-align: center; padding: 50px 24px 40px; }
+    .pin-title { font-size: 20px; font-weight: bold; margin-bottom: 6px; }
+    .pin-sub   { font-size: 13px; color: rgba(253,239,212,0.55); margin-bottom: 28px; line-height: 1.5; }
+    .pin-display {
+      display: block; width: 200px; margin: 0 auto 24px;
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.20);
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 14px; font-size: 26px; font-weight: bold;
+      letter-spacing: 6px; text-align: center; color: #f0b860;
+      min-height: 58px;
     }
+    .pin-pad  { width: 220px; margin: 0 auto 16px; }
+    .pin-row  { overflow: hidden; margin-bottom: 10px; }
+    .pin-key  {
+      float: left; width: 30%; margin-right: 5%;
+      height: 52px; line-height: 52px; text-align: center;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.15);
+      background: #2d2010; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 20px; font-weight: bold;
+      cursor: pointer;
+    }
+    .pin-key:last-child { margin-right: 0; }
+    .pin-key.del   { font-size: 16px; background: rgba(224,80,48,0.12); border-color: rgba(224,80,48,0.25); }
+    .pin-key.empty { background: transparent; border-color: transparent; cursor: default; }
+    .pin-error     { font-size: 13px; color: #e05030; margin-top: 8px; min-height: 20px; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-body { padding: 16px 18px 80px; }
+    .admin-section-title {
+      font-size: 11px; font-weight: bold;
+      color: rgba(253,239,212,0.30);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin: 18px 0 10px;
+    }
+    .casa-code-box {
+      background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.18);
+      -webkit-border-radius: 14px; border-radius: 14px;
+      padding: 22px 18px; text-align: center; margin-bottom: 10px;
+    }
+    .casa-code-label { font-size: 12px; color: rgba(253,239,212,0.45); margin-bottom: 10px; }
+    .casa-code-value { font-size: 36px; font-weight: bold; color: #f0b860; letter-spacing: 3px; }
+    .casa-code-hint  { font-size: 12px; color: rgba(253,239,212,0.40); margin-top: 8px; line-height: 1.5; }
+    .admin-btn {
+      display: block; width: 100%; padding: 14px;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.15);
+      background: #2d2010; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 14px; font-weight: bold;
+      cursor: pointer; text-align: center; margin-bottom: 10px;
+    }
+    .admin-btn.danger  { background: rgba(224,80,48,0.12); border-color: rgba(224,80,48,0.28); color: #f08070; }
+    .admin-btn.primary { background: #e88c30; border-color: #e88c30; color: #1a1208; }
+    .rooms-list { margin-bottom: 10px; }
+    .rli {
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 10px; border-radius: 10px;
+      padding: 12px 14px; margin-bottom: 8px; overflow: hidden;
+    }
+    .rli-name   { float: left; font-size: 14px; font-weight: bold; }
+    .rli-status { float: right; font-size: 12px; color: rgba(253,239,212,0.45); line-height: 22px; }
+
+    /* ── SETUP HABITACIÓN ── */
+    .setup-body  { text-align: center; padding: 40px 24px; }
+    .setup-title { font-size: 22px; font-weight: bold; color: #f0b860; margin-bottom: 6px; }
+    .setup-casa  { font-size: 12px; color: rgba(253,239,212,0.35); margin-bottom: 16px; }
+    .setup-sub   { font-size: 13px; color: rgba(253,239,212,0.55); margin-bottom: 20px; line-height: 1.5; }
+    .setup-grid  { overflow: hidden; max-width: 320px; margin: 0 auto 16px; }
+    .setup-room-btn {
+      float: left; width: 47%; margin-right: 6%; margin-bottom: 10px;
+      padding: 12px 8px;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.15);
+      background: #2d2010; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 13px;
+      cursor: pointer; text-align: center;
+    }
+    .setup-room-btn:nth-child(2n) { margin-right: 0; }
+    .setup-input {
+      display: block; width: 100%; max-width: 280px;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.15);
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 12px 16px; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 14px;
+      text-align: center; outline: none;
+      margin: 0 auto 14px; -webkit-appearance: none;
+    }
+    .setup-ok-btn {
+      background: #e88c30; border: none;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 14px 40px; color: #1a1208;
+      font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; cursor: pointer;
+    }
+
+    /* ── KIOSK ── */
+    .kiosk-header { padding: 24px 20px 12px; overflow: hidden; }
+    .room-badge {
+      float: left; background: #2d2010;
+      border: 1px solid rgba(255,210,140,0.15);
+      -webkit-border-radius: 20px; border-radius: 20px;
+      padding: 7px 14px; font-size: 14px; font-weight: bold;
+    }
+    .clock-block { float: right; text-align: right; }
+    .clock-time  { font-size: 46px; line-height: 1; color: #f0b860; font-weight: bold; letter-spacing: -2px; }
+    .clock-date  { font-size: 11px; color: rgba(253,239,212,0.55); margin-top: 3px; }
+    .action-grid { padding: 8px 16px 10px; }
+    .action-row  { overflow: hidden; margin-bottom: 10px; }
+    .action-btn {
+      display: block; float: left; width: 48%;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 14px; border-radius: 14px;
+      padding: 16px 12px; cursor: pointer; overflow: hidden;
+    }
+    .action-btn.right  { float: right; }
+    .action-btn.full   { float: none; width: 100%; }
+    .action-btn.urgent { background: rgba(224,80,48,0.12); border-color: rgba(224,80,48,0.30); }
+    .btn-icon {
+      font-size: 22px; float: left;
+      width: 44px; height: 44px; line-height: 44px; text-align: center;
+      background: rgba(240,184,96,0.09);
+      -webkit-border-radius: 10px; border-radius: 10px;
+      margin-right: 10px;
+    }
+    .btn-text { overflow: hidden; padding-top: 4px; }
+    .btn-label { font-size: 14px; font-weight: bold; color: #fdefd4; display: block; }
+    .btn-sub   { font-size: 11px; color: rgba(253,239,212,0.55); display: block; margin-top: 2px; }
+    .rooms-section { padding: 4px 16px 80px; }
+    .section-label {
+      font-size: 11px; font-weight: bold;
+      color: rgba(253,239,212,0.28);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .rooms-row { overflow: hidden; }
+    .room-chip {
+      float: left; margin: 0 8px 8px 0;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 10px 14px; cursor: pointer; min-width: 100px;
+    }
+    .room-chip-name   { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #fdefd4; }
+    .room-chip-status { font-size: 11px; color: rgba(253,239,212,0.55); overflow: hidden; }
+    .kiosk-footer {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      max-width: 600px; margin: 0 auto;
+      padding: 12px 18px; background: #1a1208;
+      border-top: 1px solid rgba(255,210,140,0.10); overflow: hidden;
+    }
+    .footer-brand  { float: left; font-size: 12px; color: rgba(253,239,212,0.28); line-height: 24px; }
+    .footer-online { float: right; font-size: 11px; background: rgba(126,200,122,0.10); border: 1px solid rgba(126,200,122,0.22); -webkit-border-radius: 8px; border-radius: 8px; padding: 4px 10px; color: #7ec87a; }
+    .footer-admin  { float: right; margin-right: 8px; font-size: 11px; background: rgba(240,184,96,0.08); border: 1px solid rgba(240,184,96,0.15); -webkit-border-radius: 8px; border-radius: 8px; padding: 4px 10px; color: rgba(240,184,96,0.55); cursor: pointer; }
 
     /* ── DEST ── */
     .dest-grid { padding: 14px 16px 20px; }
     .dest-card {
-      display: block;
-      width: 100%;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 14px;
-      border-radius: 14px;
-      padding: 16px 14px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      overflow: hidden;
-      text-align: left;
+      display: block; width: 100%;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 14px; border-radius: 14px;
+      padding: 16px 14px; cursor: pointer; margin-bottom: 10px;
+      overflow: hidden; text-align: left;
     }
-    .dest-card.todos {
-      background: rgba(240,184,96,0.07);
-      border-color: rgba(240,184,96,0.22);
-    }
-    .dest-half {
-      float: left;
-      width: 47%;
-      margin-right: 6%;
-    }
+    .dest-card.todos { background: rgba(240,184,96,0.07); border-color: rgba(240,184,96,0.22); }
+    .dest-half { float: left; width: 47%; margin-right: 6%; }
     .dest-half:nth-child(2n) { margin-right: 0; }
     .dest-emoji { font-size: 24px; display: block; margin-bottom: 8px; }
     .dest-name  { font-size: 14px; font-weight: bold; color: #fdefd4; }
     .dest-stat  { font-size: 11px; color: rgba(253,239,212,0.55); margin-top: 4px; }
-    .dest-row { overflow: hidden; margin-bottom: 10px; }
+    .dest-row   { overflow: hidden; margin-bottom: 10px; }
 
     /* ── MSG ── */
     .msg-body { padding: 14px 16px 20px; }
     .type-row { overflow: hidden; margin-bottom: 12px; }
     .type-btn {
-      float: left;
-      width: 32%;
-      margin-right: 2%;
+      float: left; width: 32%; margin-right: 2%;
       padding: 10px 4px;
-      -webkit-border-radius: 10px;
-      border-radius: 10px;
+      -webkit-border-radius: 10px; border-radius: 10px;
       border: 1px solid rgba(255,210,140,0.12);
-      background: transparent;
-      color: rgba(253,239,212,0.55);
-      font-family: Arial, sans-serif;
-      font-size: 12px;
-      cursor: pointer;
-      text-align: center;
+      background: transparent; color: rgba(253,239,212,0.55);
+      font-family: Arial, sans-serif; font-size: 12px;
+      cursor: pointer; text-align: center;
     }
     .type-btn:last-child { margin-right: 0; }
-    .type-btn.sel {
-      background: rgba(240,184,96,0.10);
-      border-color: rgba(240,184,96,0.38);
-      color: #f0b860;
-    }
-
+    .type-btn.sel { background: rgba(240,184,96,0.10); border-color: rgba(240,184,96,0.38); color: #f0b860; }
     .tpl-row { overflow: hidden; margin-bottom: 12px; }
     .tpl-chip {
-      float: left;
-      width: 47%;
-      margin-right: 6%;
-      margin-bottom: 8px;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 10px;
-      border-radius: 10px;
-      padding: 10px 10px;
-      cursor: pointer;
-      font-size: 12px;
-      color: rgba(253,239,212,0.55);
-      text-align: left;
+      float: left; width: 47%; margin-right: 6%; margin-bottom: 8px;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 10px; border-radius: 10px;
+      padding: 10px; cursor: pointer;
+      font-size: 12px; color: rgba(253,239,212,0.55); text-align: left;
     }
     .tpl-chip:nth-child(2n) { margin-right: 0; }
-    .tpl-chip.sel {
-      background: rgba(240,184,96,0.10);
-      border-color: rgba(240,184,96,0.38);
-      color: #f0b860;
-    }
-
+    .tpl-chip.sel { background: rgba(240,184,96,0.10); border-color: rgba(240,184,96,0.38); color: #f0b860; }
     .msg-ta {
-      display: block;
-      width: 100%;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      padding: 13px 13px;
-      color: #fdefd4;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      resize: none;
-      min-height: 80px;
-      outline: none;
-      margin-bottom: 12px;
-      -webkit-appearance: none;
+      display: block; width: 100%;
+      background: #2d2010; border: 1px solid rgba(255,210,140,0.12);
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 13px; color: #fdefd4;
+      font-family: Arial, sans-serif; font-size: 14px;
+      resize: none; min-height: 80px; outline: none;
+      margin-bottom: 12px; -webkit-appearance: none;
     }
-
     .send-btn {
-      display: block;
-      width: 100%;
-      background: #e88c30;
-      border: none;
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      padding: 15px;
-      color: #1a1208;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
-      text-align: center;
+      display: block; width: 100%;
+      background: #e88c30; border: none;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      padding: 15px; color: #1a1208;
+      font-family: Arial, sans-serif; font-size: 14px; font-weight: bold;
+      cursor: pointer; text-align: center;
     }
     .send-btn.urgent-send { background: #e05030; color: #fff; }
 
     /* ── CONFIRM ── */
-    .confirm-body {
-      text-align: center;
-      padding: 60px 24px 40px;
-    }
+    .confirm-body { text-align: center; padding: 60px 24px 40px; }
     .confirm-ring {
       width: 74px; height: 74px;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      background: rgba(126,200,122,0.12);
-      border: 1px solid rgba(126,200,122,0.38);
-      line-height: 74px;
-      font-size: 30px;
-      margin: 0 auto 18px;
+      -webkit-border-radius: 50%; border-radius: 50%;
+      background: rgba(126,200,122,0.12); border: 1px solid rgba(126,200,122,0.38);
+      line-height: 74px; font-size: 30px; margin: 0 auto 18px;
     }
     .confirm-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
     .confirm-sub   { font-size: 13px; color: rgba(253,239,212,0.55); line-height: 1.5; margin-bottom: 24px; }
-    .confirm-back {
-      display: inline-block;
-      padding: 12px 32px;
-      -webkit-border-radius: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,210,140,0.12);
-      background: transparent;
-      color: rgba(253,239,212,0.55);
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    /* ── SETUP ── */
-    .setup-body {
-      text-align: center;
-      padding: 50px 24px 40px;
-    }
-    .setup-icon  { font-size: 48px; margin-bottom: 12px; }
-    .setup-title { font-size: 28px; font-weight: bold; color: #f0b860; margin-bottom: 8px; }
-    .setup-sub   { font-size: 14px; color: rgba(253,239,212,0.55); margin-bottom: 22px; line-height: 1.5; }
-    .setup-grid  { overflow: hidden; margin-bottom: 18px; max-width: 320px; margin-left: auto; margin-right: auto; }
-    .setup-room-btn {
-      float: left;
-      width: 47%;
-      margin-right: 6%;
-      margin-bottom: 10px;
-      padding: 12px 8px;
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,210,140,0.12);
-      background: #2d2010;
-      color: #fdefd4;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      cursor: pointer;
-      text-align: center;
-    }
-    .setup-room-btn:nth-child(2n) { margin-right: 0; }
-    .setup-input {
-      display: block;
-      width: 100%;
-      max-width: 280px;
-      background: #2d2010;
-      border: 1px solid rgba(255,210,140,0.12);
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: #fdefd4;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      text-align: center;
-      outline: none;
-      margin: 0 auto 14px;
-      -webkit-appearance: none;
-    }
-    .setup-ok-btn {
-      background: #e88c30;
-      border: none;
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      padding: 14px 40px;
-      color: #1a1208;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
-      font-weight: bold;
-      cursor: pointer;
+    .confirm-back  {
+      display: inline-block; padding: 12px 32px;
+      -webkit-border-radius: 10px; border-radius: 10px;
+      border: 1px solid rgba(255,210,140,0.15);
+      background: transparent; color: rgba(253,239,212,0.55);
+      font-family: Arial, sans-serif; font-size: 13px; cursor: pointer;
     }
 
     /* ── INCOMING OVERLAY ── */
     .inc-overlay {
       display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(8,4,1,0.92);
-      z-index: 300;
-      text-align: center;
-      padding: 40px 24px;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(8,4,1,0.92); z-index: 300;
+      text-align: center; padding: 40px 24px;
     }
     .inc-overlay.show { display: block; }
     .inc-ring {
       width: 84px; height: 84px;
-      -webkit-border-radius: 50%;
-      border-radius: 50%;
-      border: 2px solid #e88c30;
-      background: rgba(232,140,48,0.10);
-      line-height: 84px;
-      font-size: 34px;
-      margin: 40px auto 18px;
+      -webkit-border-radius: 50%; border-radius: 50%;
+      border: 2px solid #e88c30; background: rgba(232,140,48,0.10);
+      line-height: 84px; font-size: 34px; margin: 40px auto 18px;
     }
-    .inc-from  { font-size: 13px; color: rgba(253,239,212,0.55); margin-bottom: 12px; }
+    .inc-from { font-size: 13px; color: rgba(253,239,212,0.55); margin-bottom: 12px; }
     .inc-from strong { color: #f0b860; }
-    .inc-msg   { font-size: 20px; font-weight: bold; line-height: 1.4; margin-bottom: 28px; max-width: 280px; margin-left: auto; margin-right: auto; }
-    .inc-btns  { max-width: 280px; margin: 0 auto; overflow: hidden; }
+    .inc-msg  { font-size: 20px; font-weight: bold; line-height: 1.4; margin-bottom: 28px; max-width: 280px; margin-left: auto; margin-right: auto; }
+    .inc-btns { max-width: 280px; margin: 0 auto; overflow: hidden; }
     .inc-dismiss {
-      float: left;
-      width: 36%;
-      padding: 14px 8px;
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,210,140,0.12);
-      background: transparent;
-      color: rgba(253,239,212,0.55);
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      cursor: pointer;
+      float: left; width: 36%; padding: 14px 8px;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      border: 1px solid rgba(255,210,140,0.15); background: transparent;
+      color: rgba(253,239,212,0.55); font-family: Arial, sans-serif; font-size: 13px; cursor: pointer;
     }
     .inc-reply {
-      float: right;
-      width: 60%;
-      padding: 14px 8px;
-      -webkit-border-radius: 12px;
-      border-radius: 12px;
-      border: none;
-      background: #e88c30;
-      color: #1a1208;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
+      float: right; width: 60%; padding: 14px 8px;
+      -webkit-border-radius: 12px; border-radius: 12px;
+      border: none; background: #e88c30; color: #1a1208;
+      font-family: Arial, sans-serif; font-size: 13px; font-weight: bold; cursor: pointer;
     }
   </style>
 </head>
 <body>
-
 <div id="app">
 
-  <!-- SETUP -->
-  <div class="screen active" id="screen-setup">
+  <!-- BIENVENIDA -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-body">
+      <div class="welcome-icon">&#127968;</div>
+      <div class="welcome-title">home deck</div>
+      <div class="welcome-sub">El interf&#243;n familiar<br>para tablets recicladas</div>
+      <button class="welcome-btn primary" onclick="goScreen('join')">Unirse a una casa &#8594;</button>
+      <button class="welcome-btn" onclick="goScreen('pin')">Soy administrador</button>
+    </div>
+  </div>
+
+  <!-- PIN ADMIN -->
+  <div class="screen" id="screen-pin">
+    <div class="page-header">
+      <button class="back-btn" onclick="goScreen('welcome')">&#8592;</button>
+      <div class="page-title-block">
+        <div class="page-title">&#128274; Acceso admin</div>
+        <div class="page-sub">PIN de 4 d&#237;gitos</div>
+      </div>
+      <div class="cf"></div>
+    </div>
+    <div class="pin-body">
+      <div class="pin-display" id="pin-display">&#183;&#160;&#183;&#160;&#183;&#160;&#183;</div>
+      <div class="pin-pad">
+        <div class="pin-row">
+          <div class="pin-key" onclick="pinKey('1')">1</div>
+          <div class="pin-key" onclick="pinKey('2')">2</div>
+          <div class="pin-key" onclick="pinKey('3')">3</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key" onclick="pinKey('4')">4</div>
+          <div class="pin-key" onclick="pinKey('5')">5</div>
+          <div class="pin-key" onclick="pinKey('6')">6</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key" onclick="pinKey('7')">7</div>
+          <div class="pin-key" onclick="pinKey('8')">8</div>
+          <div class="pin-key" onclick="pinKey('9')">9</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key empty"></div>
+          <div class="pin-key" onclick="pinKey('0')">0</div>
+          <div class="pin-key del" onclick="pinDel()">&#9003;</div>
+          <div class="cf"></div>
+        </div>
+      </div>
+      <div class="pin-error" id="pin-error"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div class="screen" id="screen-admin">
+    <div class="page-header">
+      <button class="back-btn" onclick="goScreen('kiosk')">&#8592;</button>
+      <div class="page-title-block">
+        <div class="page-title">&#9881; Administraci&#243;n</div>
+        <div class="page-sub">Panel de configuraci&#243;n</div>
+      </div>
+      <div class="cf"></div>
+    </div>
+    <div class="admin-body">
+      <div class="admin-section-title">C&#243;digo de tu casa</div>
+      <div class="casa-code-box">
+        <div class="casa-code-label">Muestra este c&#243;digo en las otras tablets</div>
+        <div class="casa-code-value" id="admin-casa-code">&#8212;</div>
+        <div class="casa-code-hint">
+          En cada tablet nueva pulsa<br>
+          &ldquo;Unirse a una casa&rdquo; e introduce este c&#243;digo
+        </div>
+      </div>
+      <div class="admin-section-title">Habitaciones conectadas</div>
+      <div class="rooms-list" id="admin-rooms-list">
+        <div class="rli"><div class="rli-name">Cargando...</div><div class="cf"></div></div>
+      </div>
+      <div class="admin-section-title">Acciones</div>
+      <button class="admin-btn primary" onclick="createNewCasa()">Crear casa nueva (nuevo c&#243;digo)</button>
+      <button class="admin-btn danger"  onclick="resetDevice()">Resetear esta tablet</button>
+    </div>
+  </div>
+
+  <!-- UNIRSE — introducir código -->
+  <div class="screen" id="screen-join">
+    <div class="page-header">
+      <button class="back-btn" onclick="goScreen('welcome')">&#8592;</button>
+      <div class="page-title-block">
+        <div class="page-title">Unirse a una casa</div>
+        <div class="page-sub">Teclea los 4 n&#250;meros del c&#243;digo</div>
+      </div>
+      <div class="cf"></div>
+    </div>
+    <div class="pin-body">
+      <div class="pin-display" id="join-display">&#160;</div>
+      <div class="pin-pad">
+        <div class="pin-row">
+          <div class="pin-key" onclick="codeKey('1')">1</div>
+          <div class="pin-key" onclick="codeKey('2')">2</div>
+          <div class="pin-key" onclick="codeKey('3')">3</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key" onclick="codeKey('4')">4</div>
+          <div class="pin-key" onclick="codeKey('5')">5</div>
+          <div class="pin-key" onclick="codeKey('6')">6</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key" onclick="codeKey('7')">7</div>
+          <div class="pin-key" onclick="codeKey('8')">8</div>
+          <div class="pin-key" onclick="codeKey('9')">9</div>
+          <div class="cf"></div>
+        </div>
+        <div class="pin-row">
+          <div class="pin-key empty"></div>
+          <div class="pin-key" onclick="codeKey('0')">0</div>
+          <div class="pin-key del" onclick="codeDel()">&#9003;</div>
+          <div class="cf"></div>
+        </div>
+      </div>
+      <div class="pin-error" id="join-error"></div>
+    </div>
+  </div>
+
+  <!-- SETUP HABITACIÓN -->
+  <div class="screen" id="screen-setup">
     <div class="setup-body">
-      <div class="setup-icon">&#127968;</div>
-      <div class="setup-title">home deck</div>
-      <div class="setup-sub">&#191;En qu&#233; habitaci&#243;n<br>est&#225; esta tablet?</div>
+      <div class="setup-title">&#191;En qu&#233; habitaci&#243;n est&#225;s?</div>
+      <div class="setup-casa" id="setup-casa-hint">Casa: &#8212;</div>
+      <div class="setup-sub">Elige o escribe el nombre de esta estancia</div>
       <div class="setup-grid">
         <button class="setup-room-btn" onclick="setRoom('Sal\u00f3n')">Sal&#243;n</button>
         <button class="setup-room-btn" onclick="setRoom('Cocina')">Cocina</button>
@@ -503,9 +491,9 @@
         <button class="setup-room-btn" onclick="setRoom('Habitaci\u00f3n')">Habitaci&#243;n</button>
         <button class="setup-room-btn" onclick="setRoom('Entrada')">Entrada</button>
         <button class="setup-room-btn" onclick="setRoom('Estudio')">Estudio</button>
+        <div class="cf"></div>
       </div>
-      <div class="setup-sub" style="margin-top:0;margin-bottom:10px">O escribe el nombre:</div>
-      <input class="setup-input" id="setup-custom" placeholder="Nombre personalizado" maxlength="20" type="text">
+      <input class="setup-input" id="setup-custom" type="text" placeholder="Nombre personalizado" maxlength="20">
       <button class="setup-ok-btn" onclick="setRoomCustom()">Confirmar &#8594;</button>
     </div>
   </div>
@@ -513,97 +501,59 @@
   <!-- KIOSK -->
   <div class="screen" id="screen-kiosk">
     <div class="kiosk-header">
-      <div class="room-badge">&#9679; <span id="room-name-lbl">Sal&#243;n</span></div>
+      <div class="room-badge">&#9679; <span id="room-name-lbl">&#8212;</span></div>
       <div class="clock-block">
         <div class="clock-time" id="clock">--:--</div>
         <div class="clock-date" id="date-lbl"></div>
       </div>
-      <div class="clearfix"></div>
+      <div class="cf"></div>
     </div>
-
     <div class="action-grid">
       <div class="action-row">
         <div class="action-btn" onclick="go('dest','hablar')">
           <div class="btn-icon">&#128172;</div>
-          <div class="btn-text">
-            <span class="btn-label">Hablar</span>
-            <span class="btn-sub">a una habitaci&#243;n</span>
-          </div>
-          <div class="clearfix"></div>
+          <div class="btn-text"><span class="btn-label">Hablar</span><span class="btn-sub">a una habitaci&#243;n</span></div>
+          <div class="cf"></div>
         </div>
         <div class="action-btn right" onclick="go('dest','avisar')">
           <div class="btn-icon">&#128227;</div>
-          <div class="btn-text">
-            <span class="btn-label">Avisar</span>
-            <span class="btn-sub">mensaje r&#225;pido</span>
-          </div>
-          <div class="clearfix"></div>
+          <div class="btn-text"><span class="btn-label">Avisar</span><span class="btn-sub">mensaje r&#225;pido</span></div>
+          <div class="cf"></div>
         </div>
-        <div class="clearfix"></div>
+        <div class="cf"></div>
       </div>
       <div class="action-row">
         <div class="action-btn full urgent" onclick="go('dest','urgente')">
           <div class="btn-icon">&#128680;</div>
-          <div class="btn-text">
-            <span class="btn-label">Urgente</span>
-            <span class="btn-sub">alerta a toda la casa</span>
-          </div>
-          <div class="clearfix"></div>
+          <div class="btn-text"><span class="btn-label">Urgente</span><span class="btn-sub">alerta a toda la casa</span></div>
+          <div class="cf"></div>
         </div>
       </div>
     </div>
-
     <div class="rooms-section">
       <div class="section-label">Estancias</div>
       <div class="rooms-row" id="rooms-row">
-        <div class="room-chip" data-dest="Cocina" onclick="go('msg','hablar','Cocina')">
-          <div class="room-chip-name">Cocina</div>
-          <div class="room-chip-status">
-            <div class="dot dot-green"></div><span class="rstat">Disponible</span>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <div class="room-chip" data-dest="Dormitorio" onclick="go('msg','hablar','Dormitorio')">
-          <div class="room-chip-name">Dormitorio</div>
-          <div class="room-chip-status">
-            <div class="dot dot-blue"></div><span class="rstat">Durmiendo</span>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <div class="room-chip" data-dest="Habitaci\u00f3n" onclick="go('msg','hablar','Habitaci\u00f3n')">
-          <div class="room-chip-name">Habitaci&#243;n</div>
-          <div class="room-chip-status">
-            <div class="dot dot-amber"></div><span class="rstat">Estudiando</span>
-            <div class="clearfix"></div>
-          </div>
-        </div>
-        <div class="room-chip" data-dest="Sal\u00f3n" onclick="go('msg','hablar','Sal\u00f3n')">
-          <div class="room-chip-name">Sal&#243;n</div>
-          <div class="room-chip-status">
-            <div class="dot dot-green"></div><span class="rstat">Disponible</span>
-            <div class="clearfix"></div>
-          </div>
-        </div>
+        <div style="font-size:12px;color:rgba(253,239,212,0.35);padding:8px 0">Conectando...</div>
       </div>
-      <div class="clearfix"></div>
+      <div class="cf"></div>
     </div>
-
     <div class="kiosk-footer">
       <div class="footer-brand">madeomade &middot; home deck</div>
       <div class="footer-online" id="footer-online">&#9679; en l&#237;nea</div>
-      <div class="clearfix"></div>
+      <div class="footer-admin" onclick="goScreen('pin')">admin</div>
+      <div class="cf"></div>
     </div>
   </div>
 
   <!-- DEST -->
   <div class="screen" id="screen-dest">
     <div class="page-header">
-      <button class="back-btn" onclick="go('kiosk')">&#8592;</button>
+      <button class="back-btn" onclick="goScreen('kiosk')">&#8592;</button>
       <div class="page-title-block">
         <div class="page-title" id="dest-title">&#191;A qui&#233;n avisas?</div>
-        <div class="page-sub" id="dest-sub">Toca una estancia</div>
+        <div class="page-sub"  id="dest-sub">Toca una estancia</div>
       </div>
-      <div class="clearfix"></div>
+      <div class="cf"></div>
     </div>
     <div class="dest-grid">
       <div class="dest-card todos" onclick="go('msg',null,'todos')">
@@ -611,51 +561,26 @@
         <span class="dest-name">Toda la casa</span>
         <div class="dest-stat">todas las estancias</div>
       </div>
-      <div class="dest-row">
-        <div class="dest-half dest-card" onclick="go('msg',null,'Cocina')">
-          <span class="dest-emoji">&#127859;</span>
-          <div class="dest-name">Cocina</div>
-          <div class="dest-stat">Disponible</div>
-        </div>
-        <div class="dest-half dest-card" onclick="go('msg',null,'Dormitorio')">
-          <span class="dest-emoji">&#128716;</span>
-          <div class="dest-name">Dormitorio</div>
-          <div class="dest-stat">Durmiendo</div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
-      <div class="dest-row">
-        <div class="dest-half dest-card" onclick="go('msg',null,'Habitaci\u00f3n')">
-          <span class="dest-emoji">&#128218;</span>
-          <div class="dest-name">Habitaci&#243;n</div>
-          <div class="dest-stat">Estudiando</div>
-        </div>
-        <div class="dest-half dest-card" onclick="go('msg',null,'Sal\u00f3n')">
-          <span class="dest-emoji">&#128715;</span>
-          <div class="dest-name">Sal&#243;n</div>
-          <div class="dest-stat">Disponible</div>
-        </div>
-        <div class="clearfix"></div>
-      </div>
+      <div id="dest-rooms-dyn"></div>
     </div>
   </div>
 
   <!-- MSG -->
   <div class="screen" id="screen-msg">
     <div class="page-header">
-      <button class="back-btn" onclick="go('dest')">&#8592;</button>
+      <button class="back-btn" onclick="goScreen('dest')">&#8592;</button>
       <div class="page-title-block">
         <div class="page-title" id="msg-to-title">Mensaje a Cocina</div>
         <div class="page-sub">Elige plantilla o escribe</div>
       </div>
-      <div class="clearfix"></div>
+      <div class="cf"></div>
     </div>
     <div class="msg-body">
       <div class="type-row">
         <button class="type-btn sel" onclick="selType(this,'aviso')">Aviso</button>
         <button class="type-btn"     onclick="selType(this,'pregunta')">Pregunta</button>
         <button class="type-btn"     onclick="selType(this,'info')">Info</button>
-        <div class="clearfix"></div>
+        <div class="cf"></div>
       </div>
       <div class="tpl-row" id="tpl-row"></div>
       <textarea class="msg-ta" id="msg-text" rows="4" placeholder="O escribe tu mensaje..."></textarea>
@@ -669,26 +594,41 @@
       <div class="confirm-ring" id="confirm-ring">&#10003;</div>
       <div class="confirm-title" id="confirm-title">Mensaje enviado</div>
       <div class="confirm-sub"   id="confirm-sub">Tu aviso llegar&#225; en segundos.</div>
-      <button class="confirm-back" onclick="go('kiosk')">Volver al panel</button>
+      <button class="confirm-back" onclick="goScreen('kiosk')">Volver al panel</button>
     </div>
   </div>
 
   <!-- INCOMING OVERLAY -->
   <div class="inc-overlay" id="inc-overlay">
     <div class="inc-ring">&#128276;</div>
-    <div class="inc-from">Desde <strong id="inc-from-room">Dormitorio</strong></div>
-    <div class="inc-msg" id="inc-msg">&#191;Puedes bajar un momento?</div>
+    <div class="inc-from">Desde <strong id="inc-from-room">&#8212;</strong></div>
+    <div class="inc-msg" id="inc-msg"></div>
     <div class="inc-btns">
       <button class="inc-dismiss" onclick="dismissIncoming()">Descartar</button>
       <button class="inc-reply"   onclick="replyIncoming()">Responder &#8594;</button>
-      <div class="clearfix"></div>
+      <div class="cf"></div>
     </div>
   </div>
 
-</div><!-- /#app -->
+</div>
 
 <script>
-// ─── COMPAT: localStorage con try/catch (falla en algunas WebViews antiguas) ─
+// ══════════════════════════════════════
+// CONFIGURACIÓN — edita antes de desplegar
+// ══════════════════════════════════════
+var FIREBASE_CONFIG = {
+  apiKey:            "TU_API_KEY",
+  authDomain:        "madeomade-deck.firebaseapp.com",
+  projectId:         "madeomade-deck",
+  storageBucket:     "madeomade-deck.appspot.com",
+  messagingSenderId: "TU_SENDER_ID",
+  appId:             "TU_APP_ID"
+};
+var ADMIN_PIN = "1234";  // cambia esto
+
+// ══════════════════════════════════════
+// STORAGE con fallback
+// ══════════════════════════════════════
 var store = (function() {
   try {
     localStorage.setItem('_t','1');
@@ -697,97 +637,334 @@ var store = (function() {
   } catch(e) {
     var d = {};
     return {
-      getItem:    function(k)   { return d[k] || null; },
-      setItem:    function(k,v) { d[k] = v; },
+      getItem:    function(k)   { return d[k] !== undefined ? d[k] : null; },
+      setItem:    function(k,v) { d[k] = String(v); },
       removeItem: function(k)   { delete d[k]; }
     };
   }
 })();
 
-// ─── FIREBASE CONFIG ────────────────────────────────────────
-// TODO: sustituye por tu firebaseConfig de madeomade-deck
-var firebaseConfig = {
-  apiKey:            "TU_API_KEY",
-  authDomain:        "madeomade-deck.firebaseapp.com",
-  projectId:         "madeomade-deck",
-  storageBucket:     "madeomade-deck.appspot.com",
-  messagingSenderId: "TU_SENDER_ID",
-  appId:             "TU_APP_ID"
-};
-
-var db = null;
-var unsubMessages = null;
-var unsubRooms    = null;
-
-function initFirebase() {
-  try {
-    firebase.initializeApp(firebaseConfig);
-    db = firebase.firestore();
-    startListeners();
-  } catch(e) {
-    console.warn('Firebase no disponible:', e);
-  }
-}
-
-// ─── STATE ──────────────────────────────────────────────────
+// ══════════════════════════════════════
+// ESTADO
+// ══════════════════════════════════════
+var db           = null;
+var myRoom       = store.getItem('homedeck_room');
+var myCasaCode   = store.getItem('homedeck_casa');
 var currentMode  = 'hablar';
-var currentDest  = 'Cocina';
+var currentDest  = 'todos';
+var currentType  = 'aviso';
 var pendingMsgId = null;
-var myRoom       = store.getItem('homedeck_room') || null;
+var pinBuf       = '';
+var codeBuf      = '';
+var knownRooms   = {};
+var unsubMsg     = null;
+var unsubRooms   = null;
 
 var TEMPLATES = {
-  aviso:    ['La cena est\u00e1 lista','Alguien en la puerta','\u00bfPuedes venir?','Voy a salir ahora'],
+  aviso:    ['La cena est\u00e1 lista','Alguien en la puerta','\u00bfPuedes venir?','Voy a salir'],
   pregunta: ['\u00bfVienes a comer?','\u00bfCu\u00e1ndo llegas?','\u00bfPuedes ayudarme?','\u00bfEst\u00e1s bien?'],
   info:     ['Llegar\u00e9 tarde','Estoy en llamada','Bajo en 10 min','Todo va bien']
 };
+var DAYS   = ['domingo','lunes','martes','mi\u00e9rcoles','jueves','viernes','s\u00e1bado'];
+var MONTHS = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 
-var currentType = 'aviso';
-
-// ─── INIT ────────────────────────────────────────────────────
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
 window.onload = function() {
-  if (myRoom) {
-    setText('room-name-lbl', myRoom);
-    showScreen('kiosk');
-    initFirebase();
-  } else {
-    showScreen('setup');
-  }
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+    db = firebase.firestore();
+  } catch(e) { console.warn('Firebase:', e); }
+
+  renderTpls('aviso');
   updateClock();
   setInterval(updateClock, 15000);
-  renderTpls('aviso');
-
+  updateOnline();
   if (window.addEventListener) {
     window.addEventListener('online',  updateOnline);
     window.addEventListener('offline', updateOnline);
   }
-  updateOnline();
+
+  if (myRoom && myCasaCode) {
+    setText('room-name-lbl', myRoom);
+    goScreen('kiosk');
+    startListeners();
+  } else if (myCasaCode && !myRoom) {
+    setText('setup-casa-hint', 'Casa: ' + myCasaCode);
+    goScreen('setup');
+  } else {
+    goScreen('welcome');
+  }
 };
 
-// ─── HELPERS ────────────────────────────────────────────────
-function setText(id, txt) {
+// ══════════════════════════════════════
+// DOM HELPERS
+// ══════════════════════════════════════
+function setText(id, html) {
   var el = document.getElementById(id);
-  if (el) el.innerHTML = txt;
+  if (el) el.innerHTML = html;
 }
 
-function showScreen(id) {
-  var screens = document.getElementsByClassName('screen');
-  for (var i = 0; i < screens.length; i++) {
-    screens[i].className = screens[i].className.replace(' active','').replace('active','');
+function goScreen(id) {
+  var all = document.getElementsByClassName('screen');
+  for (var i = 0; i < all.length; i++) {
+    all[i].className = all[i].className.replace(/\s*active/g, '');
   }
   var t = document.getElementById('screen-' + id);
   if (t) t.className = t.className + ' active';
 }
 
+// ══════════════════════════════════════
+// PIN ADMIN
+// ══════════════════════════════════════
+function pinKey(d) {
+  if (pinBuf.length >= 4) return;
+  pinBuf += d;
+  renderPinDisp();
+  if (pinBuf.length === 4) setTimeout(checkPin, 150);
+}
+function pinDel() {
+  pinBuf = pinBuf.slice(0, pinBuf.length - 1);
+  renderPinDisp();
+  setText('pin-error', '');
+}
+function renderPinDisp() {
+  var s = '';
+  for (var i = 0; i < 4; i++) {
+    if (i > 0) s += '&#160;';
+    s += i < pinBuf.length ? '&#9679;' : '&#183;';
+  }
+  setText('pin-display', s);
+}
+function checkPin() {
+  if (pinBuf === ADMIN_PIN) {
+    pinBuf = '';
+    renderPinDisp();
+    setText('pin-error', '');
+    setText('admin-casa-code', myCasaCode || '(sin casa a\u00fan)');
+    loadAdminRooms();
+    goScreen('admin');
+  } else {
+    setText('pin-error', 'PIN incorrecto');
+    pinBuf = '';
+    renderPinDisp();
+  }
+}
+function loadAdminRooms() {
+  if (!db || !myCasaCode) return;
+  db.collection('casas').doc(myCasaCode).collection('rooms').get()
+    .then(function(snap) {
+      var html = '';
+      snap.forEach(function(d) {
+        var data = d.data();
+        html += '<div class="rli"><div class="rli-name">' + d.id + '</div>' +
+                '<div class="rli-status">' + (data.statusLabel || 'activa') + '</div><div class="cf"></div></div>';
+      });
+      if (!html) html = '<div style="font-size:12px;color:rgba(253,239,212,0.35);padding:8px">Sin habitaciones a\u00fan</div>';
+      setText('admin-rooms-list', html);
+    })['catch'](function(){});
+}
+
+// ══════════════════════════════════════
+// CREAR CASA
+// ══════════════════════════════════════
+function generateCode() {
+  return 'CASA-' + Math.floor(1000 + Math.random() * 9000);
+}
+function createNewCasa() {
+  if (!db) { alert('Firebase no disponible'); return; }
+  var code = generateCode();
+  db.collection('casas').doc(code).set({
+    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    code: code
+  }).then(function() {
+    myCasaCode = code;
+    store.setItem('homedeck_casa', code);
+    setText('admin-casa-code', code);
+    alert('Casa creada: ' + code);
+  })['catch'](function(e) { alert('Error: ' + e.message); });
+}
+function resetDevice() {
+  if (!confirm('\u00bfResetear esta tablet?')) return;
+  store.removeItem('homedeck_room');
+  store.removeItem('homedeck_casa');
+  myRoom = null; myCasaCode = null;
+  if (unsubMsg)   { try { unsubMsg();   } catch(e){} }
+  if (unsubRooms) { try { unsubRooms(); } catch(e){} }
+  goScreen('welcome');
+}
+
+// ══════════════════════════════════════
+// UNIRSE — introducir código
+// El usuario teclea los 4 dígitos; el código en Firestore es CASA-XXXX
+// ══════════════════════════════════════
+function codeKey(d) {
+  if (codeBuf.length >= 4) return;
+  codeBuf += d;
+  renderCodeDisp();
+  if (codeBuf.length === 4) setTimeout(checkCasaCode, 150);
+}
+function codeDel() {
+  codeBuf = codeBuf.slice(0, codeBuf.length - 1);
+  renderCodeDisp();
+  setText('join-error', '');
+}
+function renderCodeDisp() {
+  setText('join-display', codeBuf.length > 0 ? 'CASA-' + codeBuf : '\u00a0');
+}
+function checkCasaCode() {
+  var fullCode = 'CASA-' + codeBuf;
+  if (!db) { joinCasa(fullCode); return; }
+  setText('join-error', 'Verificando...');
+  db.collection('casas').doc(fullCode).get()
+    .then(function(doc) {
+      if (doc.exists) {
+        joinCasa(fullCode);
+      } else {
+        setText('join-error', 'C\u00f3digo no encontrado. Comp\u00faeba e int\u00e9ntalo.');
+        codeBuf = '';
+        renderCodeDisp();
+      }
+    })['catch'](function() {
+      // sin red: acepta de todos modos
+      joinCasa(fullCode);
+    });
+}
+function joinCasa(code) {
+  myCasaCode = code;
+  store.setItem('homedeck_casa', code);
+  codeBuf = '';
+  renderCodeDisp();
+  setText('join-error', '');
+  setText('setup-casa-hint', 'Casa: ' + code);
+  goScreen('setup');
+}
+
+// ══════════════════════════════════════
+// SETUP HABITACIÓN
+// ══════════════════════════════════════
+function setRoom(name) {
+  myRoom = name;
+  store.setItem('homedeck_room', name);
+  setText('room-name-lbl', name);
+  registerRoom(name);
+  goScreen('kiosk');
+  startListeners();
+}
+function setRoomCustom() {
+  var inp = document.getElementById('setup-custom');
+  var v   = inp ? inp.value.replace(/^\s+|\s+$/g,'') : '';
+  if (v) setRoom(v);
+}
+function registerRoom(name) {
+  if (!db || !myCasaCode) return;
+  db.collection('casas').doc(myCasaCode).collection('rooms').doc(name)
+    .set({ status:'disponible', statusLabel:'Disponible',
+           updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge:true })
+    ['catch'](function(){});
+}
+
+// ══════════════════════════════════════
+// FIREBASE LISTENERS
+// ══════════════════════════════════════
+function startListeners() {
+  if (!db || !myCasaCode || !myRoom) return;
+  try {
+    unsubMsg = db.collection('casas').doc(myCasaCode).collection('messages')
+      .where('to',   'in', [myRoom, 'todos'])
+      .where('read', '==', false)
+      .orderBy('createdAt', 'desc')
+      .limit(1)
+      .onSnapshot(function(snap) {
+        if (snap.empty) return;
+        var d = snap.docs[0], msg = d.data();
+        if (msg.from === myRoom) return;
+        showIncomingMsg(d.id, msg.from, msg.text, msg.type);
+      }, function(e) { console.warn(e); });
+  } catch(e) { console.warn(e); }
+  try {
+    unsubRooms = db.collection('casas').doc(myCasaCode).collection('rooms')
+      .onSnapshot(function(snap) {
+        knownRooms = {};
+        snap.forEach(function(d) {
+          var data = d.data();
+          knownRooms[d.id] = data.statusLabel || data.status || 'Disponible';
+        });
+        renderRooms();
+      }, function(e) { console.warn(e); });
+  } catch(e) { console.warn(e); }
+}
+
+function dotClass(label) {
+  var l = (label||'').toLowerCase();
+  if (l === 'durmiendo') return 'dot-blue';
+  if (l === 'estudiando' || l === 'ocupado') return 'dot-amber';
+  if (l === 'fuera') return 'dot-gray';
+  return 'dot-green';
+}
+
+function renderRooms() {
+  var rowEl = document.getElementById('rooms-row');
+  var dynEl = document.getElementById('dest-rooms-dyn');
+  var html  = '';
+  var names = [];
+  for (var n in knownRooms) {
+    if (knownRooms.hasOwnProperty(n) && n !== myRoom) names.push(n);
+  }
+
+  if (names.length === 0) {
+    html = '<div style="font-size:12px;color:rgba(253,239,212,0.35);padding:4px 0">Sin otras estancias conectadas</div>';
+    if (rowEl) rowEl.innerHTML = html;
+    if (dynEl) dynEl.innerHTML = '';
+    return;
+  }
+
+  // kiosk chips
+  var kHtml = '';
+  for (var i = 0; i < names.length; i++) {
+    var nm = names[i];
+    var lb = knownRooms[nm];
+    var sd = nm.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    kHtml += '<div class="room-chip" onclick="go(\'msg\',\'hablar\',\'' + sd + '\')">' +
+               '<div class="room-chip-name">' + nm + '</div>' +
+               '<div class="room-chip-status"><div class="dot ' + dotClass(lb) + '"></div>' +
+               '<span>' + lb + '</span><div class="cf"></div></div></div>';
+  }
+  if (rowEl) rowEl.innerHTML = kHtml;
+
+  // dest pairs
+  var dHtml = '';
+  for (var j = 0; j < names.length; j += 2) {
+    dHtml += '<div class="dest-row">';
+    for (var k = j; k < j + 2 && k < names.length; k++) {
+      var dn = names[k];
+      var dl = knownRooms[dn];
+      var ds = dn.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      dHtml += '<div class="dest-half dest-card" onclick="go(\'msg\',null,\'' + ds + '\')">' +
+               '<span class="dest-emoji">&#127968;</span>' +
+               '<div class="dest-name">' + dn + '</div>' +
+               '<div class="dest-stat">' + dl + '</div></div>';
+    }
+    if (names.length % 2 !== 0 && j === names.length - 1) {
+      dHtml += '<div class="dest-half"></div>';
+    }
+    dHtml += '<div class="cf"></div></div>';
+  }
+  if (dynEl) dynEl.innerHTML = dHtml;
+}
+
+// ══════════════════════════════════════
+// NAVEGACIÓN
+// ══════════════════════════════════════
 function go(screen, mode, dest) {
   if (mode) currentMode = mode;
   if (dest) currentDest = dest;
-
   if (screen === 'dest') {
-    var titles = { hablar: '\u00bfA qui\u00e9n hablas?', avisar: '\u00bfA qui\u00e9n avisas?', urgente: '\u00a1Alerta urgente!' };
-    setText('dest-title', titles[currentMode] || '\u00bfA qui\u00e9n avisas?');
+    var t = { hablar:'\u00bfA qui\u00e9n hablas?', avisar:'\u00bfA qui\u00e9n avisas?', urgente:'\u00a1Alerta urgente!' };
+    setText('dest-title', t[currentMode] || '\u00bfA qui\u00e9n?');
     setText('dest-sub',   currentMode === 'urgente' ? 'Todos recibir\u00e1n la alerta' : 'Toca una estancia');
   }
-
   if (screen === 'msg') {
     var to = dest || currentDest;
     setText('msg-to-title', to === 'todos' ? 'Mensaje a toda la casa' : 'Mensaje a ' + to);
@@ -802,39 +979,24 @@ function go(screen, mode, dest) {
       renderTpls(currentType);
     }
   }
-
-  showScreen(screen);
+  goScreen(screen);
 }
 
-// ─── SETUP ──────────────────────────────────────────────────
-function setRoom(name) {
-  store.setItem('homedeck_room', name);
-  myRoom = name;
-  setText('room-name-lbl', name);
-  showScreen('kiosk');
-  initFirebase();
-}
-
-function setRoomCustom() {
-  var inp = document.getElementById('setup-custom');
-  var v   = inp ? inp.value.replace(/^\s+|\s+$/g,'') : '';
-  if (v) setRoom(v);
-}
-
-// ─── TYPE / TEMPLATES ────────────────────────────────────────
+// ══════════════════════════════════════
+// PLANTILLAS
+// ══════════════════════════════════════
 function selType(btn, type) {
   currentType = type;
   var btns = document.getElementsByClassName('type-btn');
   for (var i = 0; i < btns.length; i++) {
-    btns[i].className = btns[i].className.replace(' sel','').replace('sel','');
+    btns[i].className = btns[i].className.replace(/\s*sel/g,'');
   }
-  btn.className = btn.className + ' sel';
+  btn.className += ' sel';
   renderTpls(type);
 }
-
 function renderTpls(type) {
-  var list  = TEMPLATES[type] || TEMPLATES.aviso;
-  var row   = document.getElementById('tpl-row');
+  var list = TEMPLATES[type] || TEMPLATES.aviso;
+  var row  = document.getElementById('tpl-row');
   if (!row) return;
   row.innerHTML = '';
   for (var i = 0; i < list.length; i++) {
@@ -846,165 +1008,95 @@ function renderTpls(type) {
       row.appendChild(d);
     })(list[i], i);
   }
-  if (list[0]) {
-    document.getElementById('msg-text').value = list[0];
-  }
   var cf = document.createElement('div');
-  cf.className = 'clearfix';
+  cf.className = 'cf';
   row.appendChild(cf);
+  document.getElementById('msg-text').value = list[0];
 }
-
 function pickTpl(el, txt) {
   var chips = document.getElementsByClassName('tpl-chip');
   for (var i = 0; i < chips.length; i++) {
-    chips[i].className = chips[i].className.replace(' sel','').replace('sel','');
+    chips[i].className = chips[i].className.replace(/\s*sel/g,'');
   }
-  el.className = el.className + ' sel';
+  el.className += ' sel';
   document.getElementById('msg-text').value = txt;
 }
 
-// ─── SEND ────────────────────────────────────────────────────
+// ══════════════════════════════════════
+// ENVIAR
+// ══════════════════════════════════════
 function doSend() {
-  var dest = currentDest;
-  var txt  = document.getElementById('msg-text').value;
+  var txt = document.getElementById('msg-text').value.replace(/^\s+|\s+$/g,'');
   if (!txt) return;
-  txt = txt.replace(/^\s+|\s+$/g,'');
-  if (!txt) return;
-
   var btn = document.getElementById('send-btn');
-  btn.innerHTML  = 'Enviando...';
-  btn.disabled   = true;
-
-  if (db) {
-    db.collection('messages').add({
-      from:      myRoom || 'Desconocido',
-      to:        dest,
-      text:      txt,
-      type:      currentMode,
-      read:      false,
+  btn.innerHTML = 'Enviando...';
+  btn.disabled  = true;
+  if (db && myCasaCode) {
+    db.collection('casas').doc(myCasaCode).collection('messages').add({
+      from: myRoom || 'Desconocido', to: currentDest,
+      text: txt, type: currentMode, read: false,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(function() {
-      showConfirm(dest);
-    })['catch'](function(e) {
-      console.warn('Error enviando:', e);
-      showConfirm(dest);
-    });
+    }).then(function() { showConfirm(currentDest); })
+      ['catch'](function() { showConfirm(currentDest); });
   } else {
-    showConfirm(dest);
+    showConfirm(currentDest);
   }
 }
-
 function showConfirm(dest) {
   var btn = document.getElementById('send-btn');
   btn.disabled = false;
-
-  var isUrgent = currentMode === 'urgente';
-  setText('confirm-ring',  isUrgent ? '\u26a0' : '\u2713');
-  setText('confirm-title', isUrgent ? '\u00a1Alerta enviada!' : 'Mensaje enviado');
-  setText('confirm-sub',
-    dest === 'todos' ? 'Toda la casa ha recibido el aviso.'
-                     : 'Tu aviso llegar\u00e1 a ' + dest + ' en segundos.');
-  showScreen('confirm');
-  setTimeout(function() { showScreen('kiosk'); }, 3000);
+  var u = currentMode === 'urgente';
+  setText('confirm-ring',  u ? '\u26a0' : '\u2713');
+  setText('confirm-title', u ? '\u00a1Alerta enviada!' : 'Mensaje enviado');
+  setText('confirm-sub',   dest === 'todos' ? 'Toda la casa ha recibido el aviso.' : 'Tu aviso llegar\u00e1 a ' + dest + ' en segundos.');
+  goScreen('confirm');
+  setTimeout(function() { goScreen('kiosk'); }, 3000);
 }
 
-// ─── FIREBASE LISTENERS ──────────────────────────────────────
-function startListeners() {
-  if (!db || !myRoom) return;
-
-  // mensajes entrantes
-  unsubMessages = db.collection('messages')
-    .where('to',   'in', [myRoom, 'todos'])
-    .where('read', '==', false)
-    .orderBy('createdAt', 'desc')
-    .limit(1)
-    .onSnapshot(function(snap) {
-      if (snap.empty) return;
-      var d   = snap.docs[0];
-      var msg = d.data();
-      if (msg.from === myRoom) return;
-      showIncomingMsg(d.id, msg.from, msg.text, msg.type);
-    }, function(e) {
-      console.warn('onSnapshot messages error:', e);
-    });
-
-  // estado de habitaciones
-  unsubRooms = db.collection('rooms').onSnapshot(function(snap) {
-    snap.forEach(function(doc) {
-      var data  = doc.data();
-      var chips = document.querySelectorAll
-        ? document.querySelectorAll('[data-dest="' + doc.id + '"]')
-        : [];
-      for (var i = 0; i < chips.length; i++) {
-        var dotEl  = chips[i].getElementsByClassName('dot')[0];
-        var statEl = chips[i].getElementsByClassName('rstat')[0];
-        if (dotEl) {
-          dotEl.className = 'dot dot-' + statusColor(data.status);
-        }
-        if (statEl) statEl.innerHTML = data.statusLabel || data.status || '';
-      }
-    });
-  }, function(e) {
-    console.warn('onSnapshot rooms error:', e);
-  });
-}
-
-function statusColor(s) {
-  var map = { disponible:'green', durmiendo:'blue', ocupado:'amber', fuera:'gray', estudiando:'amber' };
-  return map[s] || 'gray';
-}
-
-// ─── INCOMING ────────────────────────────────────────────────
-function showIncomingMsg(id, from, text, type) {
+// ══════════════════════════════════════
+// INCOMING
+// ══════════════════════════════════════
+function showIncomingMsg(id, from, text) {
   pendingMsgId = id;
   setText('inc-from-room', from);
   setText('inc-msg', text);
-  var overlay = document.getElementById('inc-overlay');
-  overlay.className = overlay.className.indexOf('show') === -1
-    ? overlay.className + ' show'
-    : overlay.className;
+  var o = document.getElementById('inc-overlay');
+  if (o.className.indexOf('show') === -1) o.className += ' show';
 }
-
 function dismissIncoming() {
-  var overlay = document.getElementById('inc-overlay');
-  overlay.className = overlay.className.replace(' show','').replace('show','');
-  if (pendingMsgId && db) {
-    db.collection('messages').doc(pendingMsgId).update({ read: true })['catch'](function(){});
+  var o = document.getElementById('inc-overlay');
+  o.className = o.className.replace(/\s*show/g,'');
+  if (pendingMsgId && db && myCasaCode) {
+    db.collection('casas').doc(myCasaCode).collection('messages')
+      .doc(pendingMsgId).update({ read:true })['catch'](function(){});
   }
   pendingMsgId = null;
 }
-
 function replyIncoming() {
   var from = document.getElementById('inc-from-room').innerHTML;
   dismissIncoming();
-  go('msg', 'hablar', from);
+  go('msg','hablar', from);
 }
 
-// ─── CLOCK ──────────────────────────────────────────────────
-var DAYS   = ['domingo','lunes','martes','mi\u00e9rcoles','jueves','viernes','s\u00e1bado'];
-var MONTHS = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-
+// ══════════════════════════════════════
+// RELOJ / ONLINE
+// ══════════════════════════════════════
 function updateClock() {
   var now = new Date();
-  var h   = now.getHours()  < 10 ? '0' + now.getHours()   : '' + now.getHours();
-  var m   = now.getMinutes() < 10 ? '0' + now.getMinutes() : '' + now.getMinutes();
-  setText('clock',    h + ':' + m);
-  setText('date-lbl', DAYS[now.getDay()] + ', ' + now.getDate() + ' de ' + MONTHS[now.getMonth()]);
+  var h   = now.getHours()   < 10 ? '0'+now.getHours()   : ''+now.getHours();
+  var m   = now.getMinutes() < 10 ? '0'+now.getMinutes() : ''+now.getMinutes();
+  setText('clock',    h+':'+m);
+  setText('date-lbl', DAYS[now.getDay()]+', '+now.getDate()+' de '+MONTHS[now.getMonth()]);
 }
-
-// ─── ONLINE/OFFLINE ─────────────────────────────────────────
 function updateOnline() {
   var el = document.getElementById('footer-online');
   if (!el) return;
   if (navigator.onLine !== false) {
-    el.innerHTML = '\u25cf en l\u00ednea';
-    el.style.color = '#7ec87a';
+    el.innerHTML = '\u25cf en l\u00ednea'; el.style.color = '#7ec87a';
   } else {
-    el.innerHTML = '\u25cb sin conexi\u00f3n';
-    el.style.color = '#f08070';
+    el.innerHTML = '\u25cb sin conexi\u00f3n'; el.style.color = '#f08070';
   }
 }
 </script>
-
 </body>
 </html>
